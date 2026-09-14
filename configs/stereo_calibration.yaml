@@ -1,0 +1,26 @@
+# Connected pair from docs/hardware/macos-camera-capabilities.md.
+stereo_calibration:
+  camera_a_device_index: 0
+  camera_b_device_index: 1
+  backend: avfoundation
+  width: 1280
+  height: 720
+  fps: 30
+  camera_a_frame_id: laptop_webcam_optical
+  camera_b_frame_id: iphone_camera_optical
+
+  # Print the generated board without scaling and measure one physical square. If it
+  # differs from 40 mm, put the measured value here before collecting observations.
+  squares_x: 7
+  squares_y: 5
+  square_length_metres: 0.04
+  marker_length_metres: 0.03
+  dictionary: DICT_4X4_50
+
+  minimum_shared_corners: 12
+  required_pairs: 20
+  minimum_view_novelty: 0.08
+  maximum_pair_skew_ms: 50
+  output_path: calibrations/webcam_iphone.yaml
+  board_image_path: calibrations/charuco_board.png
+  board_image_width_pixels: 1400

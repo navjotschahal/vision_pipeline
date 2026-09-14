@@ -1,0 +1,16 @@
+# Sensor-fusion learning experiment. All sensors are simulated in a shared world frame
+# and clock so the estimator can be studied before hardware adapters are introduced.
+fusion_experiment:
+  duration_seconds: 6.0
+  seed: 7
+
+  # High-rate inertial prediction, with two slower RGB-D position corrections.
+  imu_hz: 100
+  camera_a_hz: 10
+  camera_b_hz: 20
+
+  imu_noise_std_metres_per_second2: 0.08
+  acceleration_process_std_metres_per_second2: 0.15
+  camera_a_position_std_metres: 0.03
+  camera_b_position_std_metres: 0.05
+  report_hz: 2

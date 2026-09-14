@@ -1,0 +1,42 @@
+webcam:
+  device_index: 0
+  backend: avfoundation
+  width: 1920
+  height: 1080
+  fps: 30
+  frame_id: laptop_webcam_optical
+  source_id: sensors/laptop_webcam/rgb
+  max_frames: 0
+  headless: false
+  mirror_preview: false
+
+features:
+  enabled: true
+  backend: dinov2-torch
+  # The official ADE20K head was trained for the non-register backbone.
+  model: dinov2_vits14
+  device: mps
+  image_size: 518
+  visualization: pca
+
+dino_demo:
+  # point-cloud | depth | semantic | retrieval | dense-match | sparse-match
+  mode: point-cloud
+  depth_model: dinov2_vits14_ld
+  depth_weights: NYU
+  gallery_capacity: 64
+  window_width: 1280
+  window_height: 720
+
+point_cloud:
+  # Approximation for the uncalibrated laptop webcam. A later checkerboard calibration
+  # can replace it by setting all four fx/fy/cx/cy values for this capture resolution.
+  horizontal_fov_degrees: 60
+  fx: null
+  fy: null
+  cx: null
+  cy: null
+  sampling_stride: 4
+  min_depth_metres: 0.1
+  max_depth_metres: 10.0
+  point_size: 2

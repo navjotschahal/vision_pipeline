@@ -1,0 +1,217 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000010000000000000001 /* IMUGatewayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000001 /* IMUGatewayApp.swift */; };
+		A10000010000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000002 /* ContentView.swift */; };
+		A10000010000000000000003 /* IMUModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000003 /* IMUModels.swift */; };
+		A10000010000000000000004 /* SensorGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000004 /* SensorGateway.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A20000010000000000000001 /* IMUGatewayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUGatewayApp.swift; sourceTree = "<group>"; };
+		A20000010000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A20000010000000000000003 /* IMUModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUModels.swift; sourceTree = "<group>"; };
+		A20000010000000000000004 /* SensorGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorGateway.swift; sourceTree = "<group>"; };
+		A20000010000000000000005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20000010000000000000006 /* IMUGateway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMUGateway.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A30000010000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A40000010000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A40000010000000000000002 /* IMUGateway */,
+				A40000010000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A40000010000000000000002 /* IMUGateway */ = {
+			isa = PBXGroup;
+			children = (
+				A20000010000000000000001 /* IMUGatewayApp.swift */,
+				A20000010000000000000002 /* ContentView.swift */,
+				A20000010000000000000003 /* IMUModels.swift */,
+				A20000010000000000000004 /* SensorGateway.swift */,
+				A20000010000000000000005 /* Info.plist */,
+			);
+			path = IMUGateway;
+			sourceTree = "<group>";
+		};
+		A40000010000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20000010000000000000006 /* IMUGateway.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000010000000000000001 /* IMUGateway */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A60000010000000000000002 /* Build configuration list for PBXNativeTarget "IMUGateway" */;
+			buildPhases = (
+				A30000010000000000000002 /* Sources */,
+				A30000010000000000000001 /* Frameworks */,
+				A30000010000000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IMUGateway;
+			productName = IMUGateway;
+			productReference = A20000010000000000000006 /* IMUGateway.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A70000010000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 2660;
+			};
+			buildConfigurationList = A60000010000000000000001 /* Build configuration list for PBXProject "IMUGateway" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A40000010000000000000001;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A40000010000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A50000010000000000000001 /* IMUGateway */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A30000010000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A30000010000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000010000000000000001 /* IMUGatewayApp.swift in Sources */,
+				A10000010000000000000002 /* ContentView.swift in Sources */,
+				A10000010000000000000003 /* IMUModels.swift in Sources */,
+				A10000010000000000000004 /* SensorGateway.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A80000010000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZV3GZ7DNVP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = IMUGateway/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.visionpipeline.IMUGateway;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A80000010000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZV3GZ7DNVP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = IMUGateway/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.visionpipeline.IMUGateway;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A80000010000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A80000010000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A60000010000000000000001 /* Build configuration list for PBXProject "IMUGateway" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80000010000000000000003 /* Debug */,
+				A80000010000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A60000010000000000000002 /* Build configuration list for PBXNativeTarget "IMUGateway" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80000010000000000000001 /* Debug */,
+				A80000010000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A70000010000000000000001 /* Project object */;
+}

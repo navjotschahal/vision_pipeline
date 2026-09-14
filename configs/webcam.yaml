@@ -1,0 +1,62 @@
+# Laptop webcam capture configuration.
+#
+# Precedence is: built-in defaults < this file < explicit command-line arguments.
+webcam:
+  device_index: 0
+  backend: avfoundation
+
+  # Raw requested mode. Copy a compatible row from the capability report.
+  # The application prints the actual mode negotiated by OpenCV/AVFoundation.
+  width: 1920
+  height: 1080
+  fps: 30
+
+  frame_id: laptop_webcam_optical
+  source_id: sensors/laptop_webcam/rgb
+  probe: false
+  probe_report: null
+  max_frames: 0
+  headless: false
+  mirror_preview: false
+
+# Live object detector. The checkpoint downloads on first use.
+detector:
+  enabled: true
+  # Research path: we own preprocessing, forward, decoding, and NMS.
+  # Switch to ultralytics for the high-level reference implementation.
+  backend: torch
+  model: yolo26n.pt
+  device: mps
+  confidence: 0.25
+  iou: 0.7
+  image_size: 640
+  max_detections: 300
+
+# Dense visual features. This is independent from object detection and can be consumed
+# by tracking, correspondence, retrieval, segmentation, or other downstream heads.
+features:
+  enabled: true
+  backend: dinov2-torch
+  model: dinov2_vits14_reg
+  device: mps
+
+  # Long edge presented to DINOv2. Aspect ratio is preserved and the short edge is
+  # padded only enough to produce complete 14x14 patches.
+  image_size: 518
+  visualization: pca
+
+# Temporal association baseline. Appearance is measured from the pooled DINOv2
+# descriptors; IoU contributes geometric continuity between adjacent frames.
+tracking:
+  enabled: true
+  appearance_weight: 0.7
+  minimum_cosine_similarity: 0.65
+  minimum_iou: 0.01
+  minimum_score: 0.45
+  descriptor_momentum: 0.8
+  max_missed_frames: 8
+  class_aware: true
+
+runtime:
+  # Feature pooling requires YOLO and DINOv2 results from exactly the same frame.
+  detection_mode: synchronous

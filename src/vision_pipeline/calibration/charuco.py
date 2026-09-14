@@ -1,0 +1,323 @@
+"""Automatic ChArUco observation collection and stereo camera calibration."""
+
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass
+from typing import cast
+
+import cv2
+import numpy as np
+from numpy.typing import NDArray
+
+
+@dataclass(frozen=True, slots=True)
+class CharucoBoardSpec:
+    squares_x: int
+    squares_y: int
+    square_length_metres: float
+    marker_length_metres: float
+    dictionary: str
+
+    def __post_init__(self) -> None:
+        if self.squares_x < 3 or self.squares_y < 3:
+            raise ValueError("ChArUco board must contain at least 3x3 squares")
+        if self.square_length_metres <= 0 or self.marker_length_metres <= 0:
+            raise ValueError("ChArUco physical lengths must be positive")
+        if self.marker_length_metres >= self.square_length_metres:
+            raise ValueError("marker length must be smaller than square length")
+        if not hasattr(cv2.aruco, self.dictionary):
+            raise ValueError(f"unknown OpenCV ArUco dictionary {self.dictionary!r}")
+
+    def create_board(self) -> cv2.aruco.CharucoBoard:
+        dictionary_id = int(getattr(cv2.aruco, self.dictionary))
+        dictionary = cv2.aruco.getPredefinedDictionary(dictionary_id)
+        return cv2.aruco.CharucoBoard(
+            (self.squares_x, self.squares_y),
+            self.square_length_metres,
+            self.marker_length_metres,
+            dictionary,
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class CharucoObservation:
+    image_width: int
+    image_height: int
+    corners: NDArray[np.float32]
+    ids: NDArray[np.int32]
+
+    @property
+    def corner_count(self) -> int:
+        return int(self.ids.size)
+
+
+@dataclass(frozen=True, slots=True)
+class PairedCharucoObservation:
+    camera_a: CharucoObservation
+    camera_b: CharucoObservation
+    host_receipt_skew_ms: float
+
+
+@dataclass(frozen=True, slots=True)
+class CameraCalibration:
+    image_width: int
+    image_height: int
+    camera_matrix: tuple[float, ...]
+    distortion_coefficients: tuple[float, ...]
+    rms_reprojection_error_pixels: float
+    mean_reprojection_error_pixels: float
+    observation_count: int
+
+
+@dataclass(frozen=True, slots=True)
+class StereoCalibration:
+    camera_a: CameraCalibration
+    camera_b: CameraCalibration
+    rotation_camera_a_to_b: tuple[float, ...]
+    translation_camera_a_to_b_metres: tuple[float, float, float]
+    essential_matrix: tuple[float, ...]
+    fundamental_matrix: tuple[float, ...]
+    rms_reprojection_error_pixels: float
+    paired_observation_count: int
+
+
+class CharucoTarget:
+    """Detect one immutable ChArUco board specification."""
+
+    def __init__(self, spec: CharucoBoardSpec) -> None:
+        self.spec = spec
+        self.board = spec.create_board()
+        self.detector = cv2.aruco.CharucoDetector(self.board)
+
+    def generate_image(self, width_pixels: int) -> NDArray[np.uint8]:
+        if width_pixels <= 0:
+            raise ValueError("board image width must be positive")
+        height_pixels = round(width_pixels * self.spec.squares_y / self.spec.squares_x)
+        margin = max(20, width_pixels // 35)
+        return cast(
+            NDArray[np.uint8],
+            self.board.generateImage(
+                (width_pixels, height_pixels),
+                marginSize=margin,
+                borderBits=1,
+            ),
+        )
+
+    def detect(self, image: NDArray[np.uint8]) -> CharucoObservation | None:
+        corners, ids, _, _ = self.detector.detectBoard(image)
+        if corners is None or ids is None or len(ids) == 0:
+            return None
+        return CharucoObservation(
+            image_width=int(image.shape[1]),
+            image_height=int(image.shape[0]),
+            corners=np.asarray(corners, dtype=np.float32),
+            ids=np.asarray(ids, dtype=np.int32),
+        )
+
+
+def common_corner_count(pair: PairedCharucoObservation) -> int:
+    return len(set(pair.camera_a.ids.reshape(-1)) & set(pair.camera_b.ids.reshape(-1)))
+
+
+def _view_signature(observation: CharucoObservation) -> NDArray[np.float64]:
+    points = observation.corners.reshape(-1, 2).astype(np.float64)
+    scale = np.asarray((observation.image_width, observation.image_height), dtype=np.float64)
+    centroid = points.mean(axis=0) / scale
+    hull_area = abs(float(cv2.contourArea(cv2.convexHull(points.astype(np.float32)))))
+    area_fraction = hull_area / (observation.image_width * observation.image_height)
+    centered = points - points.mean(axis=0)
+    covariance = centered.T @ centered / max(1, len(points) - 1)
+    _, axes = np.linalg.eigh(covariance)
+    primary = axes[:, -1]
+    angle = math.atan2(float(primary[1]), float(primary[0]))
+    return np.asarray(
+        (
+            centroid[0],
+            centroid[1],
+            math.sqrt(area_fraction),
+            math.cos(2 * angle),
+            math.sin(2 * angle),
+        ),
+        dtype=np.float64,
+    )
+
+
+class PairedObservationCollector:
+    """Automatically retain synchronized views that add calibration diversity."""
+
+    def __init__(
+        self,
+        *,
+        required_pairs: int,
+        minimum_shared_corners: int,
+        minimum_view_novelty: float,
+        maximum_pair_skew_ms: float,
+    ) -> None:
+        self.required_pairs = required_pairs
+        self.minimum_shared_corners = minimum_shared_corners
+        self.minimum_view_novelty = minimum_view_novelty
+        self.maximum_pair_skew_ms = maximum_pair_skew_ms
+        self.observations: list[PairedCharucoObservation] = []
+        self._signatures: list[NDArray[np.float64]] = []
+
+    @property
+    def complete(self) -> bool:
+        return len(self.observations) >= self.required_pairs
+
+    def consider(self, pair: PairedCharucoObservation) -> str:
+        if self.complete:
+            return "complete"
+        if pair.host_receipt_skew_ms > self.maximum_pair_skew_ms:
+            return "pair-skew"
+        if common_corner_count(pair) < self.minimum_shared_corners:
+            return "too-few-shared-corners"
+        signature = np.concatenate((_view_signature(pair.camera_a), _view_signature(pair.camera_b)))
+        if (
+            self._signatures
+            and min(float(np.linalg.norm(signature - previous)) for previous in self._signatures)
+            < self.minimum_view_novelty
+        ):
+            return "duplicate-view"
+        self.observations.append(pair)
+        self._signatures.append(signature)
+        return "accepted"
+
+
+def _matched_points(
+    target: CharucoTarget,
+    observation: CharucoObservation,
+) -> tuple[NDArray[np.float32], NDArray[np.float32]]:
+    object_points, image_points = target.board.matchImagePoints(  # type: ignore[call-overload]
+        observation.corners,
+        observation.ids,
+    )
+    return (
+        np.asarray(object_points, dtype=np.float32),
+        np.asarray(image_points, dtype=np.float32),
+    )
+
+
+def calibrate_camera(
+    target: CharucoTarget,
+    observations: list[CharucoObservation],
+) -> CameraCalibration:
+    """Estimate one camera's intrinsics from diverse ChArUco observations."""
+
+    if len(observations) < 5:
+        raise ValueError("intrinsic calibration requires at least five observations")
+    image_size = (observations[0].image_width, observations[0].image_height)
+    if any((item.image_width, item.image_height) != image_size for item in observations):
+        raise ValueError("all intrinsic-calibration images must have one resolution")
+    matches = [_matched_points(target, item) for item in observations]
+    object_points = [item[0] for item in matches]
+    image_points = [item[1] for item in matches]
+    rms, camera_matrix, distortion, rotations, translations = cv2.calibrateCamera(
+        object_points,
+        image_points,
+        image_size,
+        None,
+        None,
+    )
+    errors: list[float] = []
+    for object_view, image_view, rotation, translation in zip(
+        object_points,
+        image_points,
+        rotations,
+        translations,
+        strict=True,
+    ):
+        projected, _ = cv2.projectPoints(
+            object_view,
+            rotation,
+            translation,
+            camera_matrix,
+            distortion,
+        )
+        residual = projected.reshape(-1, 2) - image_view.reshape(-1, 2)
+        errors.extend(np.linalg.norm(residual, axis=1).tolist())
+    return CameraCalibration(
+        image_width=image_size[0],
+        image_height=image_size[1],
+        camera_matrix=tuple(float(value) for value in camera_matrix.reshape(-1)),
+        distortion_coefficients=tuple(float(value) for value in distortion.reshape(-1)),
+        rms_reprojection_error_pixels=float(rms),
+        mean_reprojection_error_pixels=float(np.mean(errors)),
+        observation_count=len(observations),
+    )
+
+
+def _shared_points(
+    target: CharucoTarget,
+    pair: PairedCharucoObservation,
+) -> tuple[NDArray[np.float32], NDArray[np.float32], NDArray[np.float32]]:
+    ids_a = {int(value): index for index, value in enumerate(pair.camera_a.ids.reshape(-1))}
+    ids_b = {int(value): index for index, value in enumerate(pair.camera_b.ids.reshape(-1))}
+    shared = sorted(ids_a.keys() & ids_b.keys())
+    board_points = np.asarray(target.board.getChessboardCorners(), dtype=np.float32)
+    image_a = pair.camera_a.corners.reshape(-1, 2)
+    image_b = pair.camera_b.corners.reshape(-1, 2)
+    return (
+        board_points[shared].reshape(-1, 1, 3),
+        image_a[[ids_a[value] for value in shared]].reshape(-1, 1, 2),
+        image_b[[ids_b[value] for value in shared]].reshape(-1, 1, 2),
+    )
+
+
+def calibrate_stereo(
+    target: CharucoTarget,
+    pairs: list[PairedCharucoObservation],
+) -> StereoCalibration:
+    """Estimate intrinsics and the rigid transform from camera A into camera B."""
+
+    if len(pairs) < 5:
+        raise ValueError("stereo calibration requires at least five paired observations")
+    camera_a = calibrate_camera(target, [pair.camera_a for pair in pairs])
+    camera_b = calibrate_camera(target, [pair.camera_b for pair in pairs])
+    if (camera_a.image_width, camera_a.image_height) != (
+        camera_b.image_width,
+        camera_b.image_height,
+    ):
+        raise ValueError("this stereo calibration exercise requires matching resolutions")
+    shared = [_shared_points(target, pair) for pair in pairs]
+    matrix_a = np.asarray(camera_a.camera_matrix, dtype=np.float64).reshape(3, 3)
+    matrix_b = np.asarray(camera_b.camera_matrix, dtype=np.float64).reshape(3, 3)
+    distortion_a = np.asarray(camera_a.distortion_coefficients, dtype=np.float64)
+    distortion_b = np.asarray(camera_b.distortion_coefficients, dtype=np.float64)
+    result = cv2.stereoCalibrate(
+        [item[0] for item in shared],
+        [item[1] for item in shared],
+        [item[2] for item in shared],
+        matrix_a,
+        distortion_a,
+        matrix_b,
+        distortion_b,
+        (camera_a.image_width, camera_a.image_height),
+        flags=cv2.CALIB_FIX_INTRINSIC,
+    )
+    rms, _, _, _, _, rotation, translation, essential, fundamental = result
+    translation_values = tuple(float(value) for value in translation.reshape(-1))
+    return StereoCalibration(
+        camera_a=camera_a,
+        camera_b=camera_b,
+        rotation_camera_a_to_b=tuple(float(value) for value in rotation.reshape(-1)),
+        translation_camera_a_to_b_metres=translation_values,  # type: ignore[arg-type]
+        essential_matrix=tuple(float(value) for value in essential.reshape(-1)),
+        fundamental_matrix=tuple(float(value) for value in fundamental.reshape(-1)),
+        rms_reprojection_error_pixels=float(rms),
+        paired_observation_count=len(pairs),
+    )
+
+
+__all__ = [
+    "CameraCalibration",
+    "CharucoBoardSpec",
+    "CharucoObservation",
+    "CharucoTarget",
+    "PairedCharucoObservation",
+    "PairedObservationCollector",
+    "StereoCalibration",
+    "calibrate_camera",
+    "calibrate_stereo",
+    "common_corner_count",
+]
