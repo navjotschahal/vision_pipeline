@@ -108,7 +108,23 @@ share (`M0.md` addendum).
   rendered at most 15 Hz, from references published by the workers, so rendering never
   blocks capture, masks, or geometry.
 
-Snapshots from replay: `m2-visualization/box-tracking.jpg` and `ball-tracking.jpg`.
+Both panels also draw the box's principal axes from its centre: x red (longest visible
+extent), y green, z blue (thinnest; the normal of a flat face). They are labelled as PCA
+axes, not a pose. NDJSON records carry them as `bounds.principal_axes` (unit column
+vectors in the camera frame).
+
+The snapshots show where PCA axes can and cannot be trusted:
+
+- **Flat box** (`side-box-tracking.jpg`, bounds 0.30 × 0.21 × 0.06 m): z is its top-face
+  normal and x its long edge, so the axes line up with the faces.
+- **Near-cubic box** (`box-tracking.jpg`, 0.325 × 0.326 × 0.248 m): x and y are almost
+  equal, so the PCA axes are diagonal to the faces and can rotate between frames.
+
+For grasping a box between two arms, face-aligned axes need a different estimate, e.g.
+the table normal as "up" plus a minimum-area rectangle of the footprint for yaw.
+
+Snapshots from replay: `m2-visualization/box-tracking.jpg`, `side-box-tracking.jpg`, and
+`ball-tracking.jpg`.
 
 `--ndjson PATH` appends one `selected-object-observation-v1` record per geometry output.
 Each record carries the frameset, color and depth sample IDs, both device capture

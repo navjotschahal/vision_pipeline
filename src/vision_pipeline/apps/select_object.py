@@ -54,7 +54,7 @@ from vision_pipeline.contracts import (
 )
 from vision_pipeline.geometry.camera import PinholeIntrinsics
 from vision_pipeline.geometry.pointcloud import GeometryKind, PointCloud
-from vision_pipeline.geometry.spatial import RigidTransform3D
+from vision_pipeline.geometry.spatial import OrientedBox3D, RigidTransform3D
 from vision_pipeline.geometry.visualization import PointCloudRenderer, PointCloudViewConfig
 from vision_pipeline.perception.objects.selected_geometry import SelectedGeometryEstimator
 from vision_pipeline.perception.objects.selection import (
@@ -90,6 +90,9 @@ _PLANE_INLIER_RGB = (70, 130, 180)
 _PLANE_OUTLIER_RGB = (60, 60, 60)
 _BOX_EDGE_RGB = (255, 110, 20)
 _MARKER_RGB = (0, 230, 230)
+# Principal axes, longest to thinnest: x red, y green, z blue.
+_AXIS_RGB = ((255, 40, 40), (40, 220, 40), (60, 120, 255))
+_AXIS_SAMPLES = 40
 _SCRATCH_FRAME = FrameId("select-object-view")
 _SCRATCH_CLOCK = ClockDomain("select-object/view", ClockKind.HOST_MONOTONIC)
 _BOX_EDGES = (
@@ -141,6 +144,8 @@ def geometry_record(output: GeometryOutput) -> dict[str, Any]:
                     "position_metres": list(bounds.pose.position_metres),
                     "orientation_xyzw": list(bounds.pose.orientation_xyzw),
                     "size_metres": list(bounds.size_metres),
+                    # Unit columns of the box rotation, longest to thinnest visible extent.
+                    "principal_axes": _unit_axes(bounds),
                     "kind": "pca-observed-surface-bounds; not an object pose",
                 },
                 "point_count": estimate.observation.point_count,
@@ -184,6 +189,36 @@ def _box_corners(output: GeometryOutput) -> np.ndarray | None:
             for sz in (-half[2], half[2])
         ]
     )
+
+
+def box_axes(bounds: OrientedBox3D) -> tuple[np.ndarray, np.ndarray]:
+    """Box centre and the endpoints of its three principal axes, in the box's frame.
+
+    Axis ``k`` of the PCA box is column ``k`` of its rotation: ``x`` is the longest
+    visible extent and ``z`` the thinnest, which for a flat face is its normal. Arrows
+    share one length (60 % of the largest extent, clamped to 5-25 cm) so that a
+    near-degenerate axis stays visible. These axes describe the observed surface, not
+    an object pose; for symmetric objects they can flip between frames.
+    """
+
+    length = min(max(0.6 * max(bounds.size_metres), 0.05), 0.25)
+    transform = RigidTransform3D(
+        source_frame=_SCRATCH_FRAME,
+        target_frame=_SCRATCH_FRAME,
+        translation_metres=bounds.pose.position_metres,
+        rotation_xyzw=bounds.pose.orientation_xyzw,
+    )
+    endpoints = np.array(
+        [transform.apply_point(tuple(length * np.eye(3)[axis])) for axis in range(3)]
+    )
+    return np.array(bounds.pose.position_metres, dtype=np.float64), endpoints
+
+
+def _unit_axes(bounds: OrientedBox3D) -> list[list[float]]:
+    origin, endpoints = box_axes(bounds)
+    directions = endpoints - origin
+    directions /= np.linalg.norm(directions, axis=1, keepdims=True)
+    return [[float(value) for value in axis] for axis in directions]
 
 
 class SelectionView:
@@ -304,6 +339,18 @@ class SelectionView:
                 points = np.rint(projected).astype(np.int32)
                 for a, b in _BOX_EDGES:
                     cv2.line(image, tuple(points[a]), tuple(points[b]), (20, 110, 255), 2)
+            origin, endpoints = box_axes(geometry.geometry.observation.bounds)
+            axis_pixels = _project(np.vstack((origin, endpoints)), frame.color_intrinsics)
+            if axis_pixels is not None:
+                start = tuple(np.rint(axis_pixels[0]).astype(np.int32))
+                for axis, name in enumerate("xyz"):
+                    end = tuple(np.rint(axis_pixels[axis + 1]).astype(np.int32))
+                    red, green, blue = _AXIS_RGB[axis]
+                    cv2.arrowedLine(image, start, end, (blue, green, red), 2, cv2.LINE_AA, 0, 0.15)
+                    cv2.putText(
+                        image, name, end, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (blue, green, red), 1,
+                        cv2.LINE_AA,
+                    )  # fmt: skip
             centre = _project(np.array([geometry.geometry.centroid_metres]), frame.color_intrinsics)
             if centre is not None:
                 cv2.drawMarker(
@@ -397,6 +444,11 @@ class SelectionView:
                 np.tile(np.array(_BOX_EDGE_RGB, np.uint8), (len(edges), 1)),
                 np.tile(np.array(_MARKER_RGB, np.uint8), (len(marker), 1)),
             ]
+            origin, endpoints = box_axes(bounds)
+            steps = np.linspace(0.0, 1.0, _AXIS_SAMPLES)[:, None]
+            for axis in range(3):
+                xyz_parts.append((origin + steps * (endpoints[axis] - origin)).astype(np.float32))
+                color_parts.append(np.tile(np.array(_AXIS_RGB[axis], np.uint8), (_AXIS_SAMPLES, 1)))
         if not xyz_parts:
             canvas = np.full((self._cloud_size, self._cloud_size, 3), 18, np.uint8)
             cv2.putText(
@@ -438,6 +490,7 @@ class SelectionView:
                 "green final, pink isolated, yellow table",
                 "clearance, brown workspace, red other",
                 "surface, blue plane, orange bounds",
+                "PCA axes x/y/z red/green/blue (not a pose)",
             ),
         )
 
