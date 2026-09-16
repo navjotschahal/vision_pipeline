@@ -59,7 +59,13 @@ class PointCloudRenderer:
             raise ValueError("zoom factor must be positive and finite")
         self.zoom = min(8.0, max(0.15, self.zoom * factor))
 
-    def render(self, cloud: PointCloud[torch.Tensor]) -> NDArray[np.uint8]:
+    def render(
+        self,
+        cloud: PointCloud[torch.Tensor],
+        *,
+        title: str = "MONOCULAR PSEUDO-CLOUD - learned depth",
+        extra_status_lines: tuple[str, ...] = (),
+    ) -> NDArray[np.uint8]:
         xyz = cloud.xyz.detach().to(device="cpu", dtype=torch.float32).numpy()
         if xyz.ndim != 2 or xyz.shape[1] != 3:
             raise ValueError("point cloud XYZ values must have [N, 3] shape")
@@ -69,7 +75,7 @@ class PointCloudRenderer:
             dtype=np.uint8,
         )
         if xyz.shape[0] == 0:
-            self._draw_status(canvas, cloud, 0)
+            self._draw_status(canvas, cloud, 0, title, extra_status_lines)
             return canvas
 
         center = np.median(xyz, axis=0)
@@ -106,7 +112,7 @@ class PointCloudRenderer:
             canvas = cast(NDArray[np.uint8], cv2.dilate(canvas, kernel))
 
         self._draw_axes(canvas, rotation, scale, visible_extent)
-        self._draw_status(canvas, cloud, len(ordering))
+        self._draw_status(canvas, cloud, len(ordering), title, extra_status_lines)
         return canvas
 
     def _rotation(self) -> NDArray[np.float32]:
@@ -175,6 +181,8 @@ class PointCloudRenderer:
         canvas: NDArray[np.uint8],
         cloud: PointCloud[torch.Tensor],
         visible_count: int,
+        title: str,
+        extra_status_lines: tuple[str, ...],
     ) -> None:
         intrinsics_kind = (
             f"calibrated:{cloud.intrinsics.calibration_id}"
@@ -182,12 +190,13 @@ class PointCloudRenderer:
             else "approximate-FOV"
         )
         lines = (
-            f"MONOCULAR PSEUDO-CLOUD - learned depth; intrinsics={intrinsics_kind}",
+            f"{title}; intrinsics={intrinsics_kind}",
             f"points={cloud.xyz.shape[0]} visible={visible_count} "
             f"stride={cloud.sampling_stride} geometry={cloud.geometry_kind.value}",
             f"view yaw={math.degrees(self.yaw_radians):.0f} "
             f"pitch={math.degrees(self.pitch_radians):.0f} "
             f"roll={math.degrees(self.roll_radians):.0f} zoom={self.zoom:.2f}",
+            *extra_status_lines,
             "controls: J/L yaw  I/K pitch  U/O roll  +/- zoom  R reset  Q quit",
         )
         for index, line in enumerate(lines):

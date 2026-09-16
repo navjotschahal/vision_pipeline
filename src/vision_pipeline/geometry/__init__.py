@@ -2,7 +2,7 @@
 
 from .camera import PinholeIntrinsics
 from .pointcloud import GeometryKind, PointCloud, depth_to_point_cloud
-from .spatial import OrientedBox3D, Pose3D, QuaternionXyzw, Twist3D, Vector3
+from .spatial import OrientedBox3D, Pose3D, QuaternionXyzw, RigidTransform3D, Twist3D, Vector3
 from .voxel_map import VoxelMapConfig, VoxelWorldMap
 
 __all__ = [
@@ -12,6 +12,7 @@ __all__ = [
     "PointCloud",
     "Pose3D",
     "QuaternionXyzw",
+    "RigidTransform3D",
     "Twist3D",
     "Vector3",
     "VoxelMapConfig",

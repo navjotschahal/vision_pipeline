@@ -1,0 +1,37 @@
+# Phase 1 (BRIEF_vision_agent.md): box pose in the camera frame, no ROS.
+#
+# realsense: the mode measured in docs/hardware/d435i-usb3-fps-latency.md -- sustained
+# 29.98 fps with 0 errors on the USB3 link, 33.8 ms mean capture-to-host latency.
+#
+# workspace: UNVERIFIED PLACEHOLDER. The camera was probed pointed at a general room
+# scene (median depth 2.15 m, nothing resembling a tabletop), not the actual arm/table
+# setup, so these bounds are a starting guess for a box 0.3-0.9 m in front of the camera
+# -- not a measurement. Tune them live: run the viewer, watch which points fall inside
+# the crop (phase 1B draws exactly this), and adjust minimum_metres/maximum_metres until
+# the box is the only thing being tracked. Do not trust this file until that is done.
+realsense:
+  serial_number: "146322071961"
+  color_width: 640
+  color_height: 480
+  color_fps: 30
+  depth_width: 640
+  depth_height: 480
+  depth_fps: 30
+
+workspace:
+  # realsense_color_optical frame (X right, Y down, Z forward), metres.
+  minimum_metres: [-0.40, -0.05, 0.30]
+  maximum_metres: [0.40, 0.35, 0.90]
+
+estimator:
+  label: box
+  confidence: 1.0
+  min_depth_metres: 0.2
+  max_depth_metres: 1.2
+  sampling_stride: 2
+  plane_distance_threshold_metres: 0.008
+  clearance_metres: 0.015
+  cell_size_metres: 0.02
+  minimum_cluster_points: 150
+  minimum_plane_inliers: 500
+  seed: 0

@@ -23,6 +23,8 @@ host ports, cables, and operating systems can change what is actually available.
 
 - [Current macOS camera capability snapshot](macos-camera-capabilities.md), generated
   from the cameras currently exposed by AVFoundation.
+- [RealSense D435i USB link and achievable depth+color rate](d435i-usb3-fps-latency.md),
+  probed on `figueroa-lab11` with `pyrealsense2`.
 
 ## Current probe command
 
