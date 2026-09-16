@@ -1,6 +1,10 @@
 # Camera-to-robot calibration: how it works and how we will automate it
 
-Status: plan, 2026-09-16. Nothing here moves the robot yet.
+Status, 2026-09-16:
+- **Done:** the robot-agnostic solver, validation, pose selection, and rig profiles are
+  implemented and tested on synthetic data.
+- **Not built yet:** the ROS 2 bridge and live capture.
+- **Robot motion:** nothing here moves the robot.
 
 ## 1. What is being calibrated
 
@@ -127,47 +131,104 @@ markerless RGB-D method and ~7 mm for classical baselines.
 the kinematics, not the camera. The next step would then be joint-offset calibration,
 using the same captured data.
 
-## 4. The auto-calibration system we will build
+## 4. Robot-agnostic design
 
-"Auto" means that no one hand-picks poses or runs solver scripts. An operator still
-starts it, watches it, and holds an emergency stop.
+The rig may be the bimanual OpenArm today and a single Franka, a bimanual Franka, or a
+KUKA + Franka pair later. Nothing in the calibration core names a robot.
+
+**What changes per robot is one profile file** (`configs/calibration/*.yaml`, loaded by
+`calibration/robot_profile.py`). It holds, per arm:
+- `base_frame` → `flange_frame`, the TF frames forward kinematics connects;
+- joint names and limits, with a safety margin;
+- the ROS 2 `FollowJointTrajectory` action and a calibration speed cap;
+- the mount: `eye_to_hand` (fixed camera) or `eye_in_hand` (wrist camera, common on
+  Franka setups).
+
+A rig can also give each arm's nominal base pose in a shared reference frame. Profiles
+exist for OpenArm v1.0 and v2.0 (checked against their URDFs and controller configs).
+Profiles for other robots are written from the running system, not guessed:
+
+```bash
+ros2 run tf2_tools view_frames          # base and flange frame names
+ros2 topic echo /joint_states --once    # joint names
+ros2 action list -t                     # FollowJointTrajectory action names
+```
+
+Franka FR3 (`franka_ros2`) and KUKA LBR iiwa/Med (`lbr_fri_ros2_stack`) both use ROS 2,
+ros2_control, and MoveIt 2, the same interface pattern as OpenArm.
+
+**What stays the same** (`calibration/hand_eye.py`, ROS-free, numpy + OpenCV):
+- ChArUco board pose: IPPE, then Levenberg-Marquardt refinement.
+- The motion-diversity check, which refuses rotation-poor data.
+- All five closed-form solvers, then joint refinement of the camera and board transforms
+  on corner reprojection, with a Huber loss and outlier rejection.
+- Held-out validation, and the greedy next-pose selector.
+- Both mounts, for any number of arms.
+
+**Mixed or bimanual rigs.** Each arm is calibrated independently against the shared
+camera:
+- With a common body link (OpenArm), `relative_base_error` compares the implied
+  arm-to-arm transform with the URDF.
+- With separately mounted arms (KUKA + Franka) there is no nominal transform. Validation
+  is then cross-arm: both arms point at the same board corner or at each other's flange,
+  and the camera-predicted positions must agree.
+
+**Two integration constraints found on this machine:**
+- ROS 2 Humble's `rclpy` only imports under the system Python 3.10. The `.venv` is
+  3.12, and `vision_pipeline` requires ≥3.11. The ROS side is therefore a thin bridge
+  process: it reads TF and joint states, executes trajectories, and checks collisions
+  through MoveIt. It exchanges plain messages with the calibration core over localhost.
+- The OpenArm bimanual trajectory controllers run with `interpolation_method: "none"`
+  and expect high-frequency commands. A calibration move must therefore send a densely
+  sampled, velocity-limited trajectory, never one distant waypoint.
+
+**Measured on synthetic data** (`tests/test_hand_eye.py`; 20 poses, 0.2 px corner noise,
+three seeds). This shows why refinement is standard:
+
+| Estimate | Camera position error | Camera rotation error |
+|---|---|---|
+| Best closed-form method per seed (Daniilidis) | 0.6–6.8 mm | 0.20–0.60° |
+| Worst closed-form method per seed | 7.0–32.1 mm | 0.33–0.79° |
+| After reprojection refinement (vs ground truth) | 0.13–0.21 mm | ≤ 0.014° |
+
+Closed-form rows are deviations from the refined result, which is itself within 0.21 mm
+and 0.014° of the ground truth.
+
+Held-out board corners after refinement: 0.5–1.1 mm mean, 1.1–3.2 mm p95. Real data adds
+kinematic error, board flatness, and depth-independent PnP noise, so expect worse on the
+bench.
+
+## 5. The auto-calibration loop
 
 ```
 calibration planner ──▶ safe executor ──▶ synchronized capture ──▶ solver + refinement ──▶ validation report ──▶ versioned calibration + TF
-      ▲                (ROS 2 trajectory      (RealSense frames +      (OpenCV closed form,       (held-out error,
-      │                 controller, slow,      joint states, settle     reprojection BA)           mesh overlay,
-      └── next best pose (most new rotation, board visible, collision-free) ◀────────────────────── left/right check)
+      ▲                (ROS 2 bridge:          (RealSense frames +      (hand_eye.py)              (held-out error,
+      │                 dense, slow             joint states, settle                               mesh overlay,
+      │                 trajectories)           check)                                             arm-to-arm check)
+      └── next best pose (most new rotation, board predicted in view, collision-free) ◀────────
 ```
 
 1. **Planner.**
-   - Sample candidate joint configurations near a "board faces camera" posture, using a
-     rough initial `T_base_cam` (measured by hand, or from the first 3 poses).
-   - Keep the reachable, collision-free ones: MoveIt bimanual config, self-collision,
-     table.
-   - Greedily add the candidate that most increases rotation diversity (largest minimum
-     angle to already-captured orientations), with the board predicted to be in view.
+   - Sample joint configurations within the profile's limits and margin.
+   - Keep candidates that MoveIt reports collision-free (including the other arm) and
+     where the board is predicted to face the camera, using a rough first estimate from
+     3 hand-chosen poses.
+   - Choose among them with `select_diverse_pose`.
 2. **Executor.**
-   - The existing ROS 2 `joint_trajectory_controller`, velocity-limited, with an operator
-     deadman and a workspace fence.
-   - Proven on fake hardware and the MuJoCo sim first; runs on the real arms only with
-     explicit sign-off.
+   - A slow, dense trajectory on the profile's action, with an operator deadman.
+   - Proven on fake hardware or the sim first; runs on real arms only with explicit
+     sign-off.
 3. **Capture.**
-   - RealSense frames paired with `/joint_states` at the same instant, using the
-     timestamp and provenance contracts already in `vision_pipeline`.
-   - Captured only after motion has settled.
-4. **Solver and report.**
-   - Deterministic and runnable offline from the recorded dataset.
-   - Produces a report with all method estimates, residuals, and validation numbers.
-5. **Markerless recheck** (later).
-   - Estimate `T_base_cam` from the robot's own meshes, with no board: **Hydra** (RGB-D,
-     ICP of robot geometry to depth; ~90 % success from 3 configurations; Apache-2.0;
-     ROS 2) or **EasyHeC / EasyHeC++** (RGB, differentiable rendering of the robot mask
-     plus automatic joint-space exploration).
-   - Good for detecting drift automatically between marker calibrations. It needs
-     accurate URDF meshes, and ours are CAD models of a low-cost arm, so it is a check,
-     not the primary calibration.
+   - After motion settles: joint states, TF `base_from_flange`, and 10 RealSense frames.
+   - Stored as a replayable dataset, so the solve can be rerun without the robot.
+4. **Solve, validate, and publish.** `calibrate_hand_eye`, then `validate_hand_eye` on
+   held-out poses, then the arm-to-arm check, then a versioned result stamped with a
+   `CalibrationRef`.
+5. **Markerless recheck** (later): Hydra (RGB-D ICP of robot geometry) or
+   EasyHeC / EasyHeC++ (differentiable rendering), to detect drift between marker
+   calibrations.
 
-## 5. Sources
+## 6. Sources
 
 - OpenCV `calibrateHandEye` / `calibrateRobotWorldHandEye` API and eye-to-hand notes:
   [calib3d.hpp](https://github.com/opencv/opencv/blob/4.x/modules/calib3d/include/opencv2/calib3d.hpp)
@@ -178,4 +239,6 @@ calibration planner ──▶ safe executor ──▶ synchronized capture ─�
 - EasyHeC, RA-L 2023: [arXiv:2305.01191](https://arxiv.org/abs/2305.01191), code [ootts/EasyHeC](https://github.com/ootts/EasyHeC)
 - EasyHeC++, IROS 2024: [arXiv:2410.09293](https://arxiv.org/abs/2410.09293)
 - Hydra: Marker-Free RGB-D Hand-Eye Calibration: [arXiv:2504.20584](https://arxiv.org/abs/2504.20584)
+- franka_ros2 (Franka FR3, ROS 2): [github.com/frankarobotics/franka_ros2](https://github.com/frankarobotics/franka_ros2)
+- LBR-Stack, ROS 2 for KUKA LBR iiwa/Med: [github.com/lbr-stack/lbr_fri_ros2_stack](https://github.com/lbr-stack/lbr_fri_ros2_stack), [arXiv:2311.12709](https://arxiv.org/abs/2311.12709)
 - Intel RealSense D400 self-calibration and health check: [RealSense docs](https://dev.realsenseai.com/docs/intel-realsense-self-calibration-for-d400-series-depth-cameras/)

@@ -1,0 +1,55 @@
+# Calibration rig: OpenArm v2.0 bimanual, fixed RealSense D435I (eye-to-hand).
+#
+# Frames, joint names, limits, and nominal base mounts are copied from
+# openarm_description/assets/robot/openarm_v2.0/urdf/example/v2.urdf and the trajectory
+# actions from openarm_bringup/config/controllers/openarm_bimanual_controllers.yaml
+# (checked 2026-09-16). The flange is each arm's last moving link, which carries the board.
+#
+# board: PLACEHOLDER until the plate is printed. Measure one printed square with calipers
+# and write the measured size here before collecting data.
+rig: openarm_v2_bimanual
+camera:
+  frame: realsense_color_optical
+  serial: "146322071961"
+board:
+  squares_x: 7
+  squares_y: 5
+  square_length_metres: 0.03
+  marker_length_metres: 0.022
+  dictionary: DICT_4X4_50
+reference_frame: openarm_body_link0
+arms:
+  - name: left
+    robot_model: openarm_v2.0
+    mount: eye_to_hand
+    base_frame: openarm_left_base_link
+    flange_frame: openarm_left_ee_base_link
+    trajectory_action: /left_joint_trajectory_controller/follow_joint_trajectory
+    max_joint_speed_rad_s: 0.3
+    joint_limit_margin_rad: 0.1
+    nominal_base_in_reference: {xyz: [0.0, 0.031, 0.698], rpy: [0.0, 0.0, 0.0]}
+    joints:
+      - {name: openarm_left_joint1, lower: -3.4907, upper: 1.3963}
+      - {name: openarm_left_joint2, lower: -3.3161, upper: 0.17453}
+      - {name: openarm_left_joint3, lower: -1.5708, upper: 1.5708}
+      - {name: openarm_left_joint4, lower: 0.0, upper: 2.4435}
+      - {name: openarm_left_joint5, lower: -1.5708, upper: 1.5708}
+      - {name: openarm_left_joint6, lower: -0.7854, upper: 0.7854}
+      - {name: openarm_left_joint7, lower: -1.5708, upper: 1.5708}
+  - name: right
+    robot_model: openarm_v2.0
+    mount: eye_to_hand
+    base_frame: openarm_right_base_link
+    flange_frame: openarm_right_ee_base_link
+    trajectory_action: /right_joint_trajectory_controller/follow_joint_trajectory
+    max_joint_speed_rad_s: 0.3
+    joint_limit_margin_rad: 0.1
+    nominal_base_in_reference: {xyz: [0.0, -0.031, 0.698], rpy: [0.0, 0.0, 0.0]}
+    joints:
+      - {name: openarm_right_joint1, lower: -1.3963, upper: 3.4907}
+      - {name: openarm_right_joint2, lower: -0.17453, upper: 3.3161}
+      - {name: openarm_right_joint3, lower: -1.5708, upper: 1.5708}
+      - {name: openarm_right_joint4, lower: 0.0, upper: 2.4435}
+      - {name: openarm_right_joint5, lower: -1.5708, upper: 1.5708}
+      - {name: openarm_right_joint6, lower: -0.7854, upper: 0.7854}
+      - {name: openarm_right_joint7, lower: -1.5708, upper: 1.5708}
