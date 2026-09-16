@@ -198,7 +198,114 @@ Held-out board corners after refinement: 0.5–1.1 mm mean, 1.1–3.2 mm p95. Re
 kinematic error, board flatness, and depth-independent PnP noise, so expect worse on the
 bench.
 
-## 5. The auto-calibration loop
+## 5. When the camera moves, and what the D435I IMU can add
+
+**Robot on the bench:** OpenArm v1.0, so `configs/calibration/openarm_v1_bimanual.yaml` is the
+active rig. The camera may be repositioned.
+
+**Why it matters.** Calibration measures `T_base_cam` for one physical camera placement.
+Every perception output reaches the robot through that transform, so moving the camera
+by 1 cm or tilting it by 0.5° moves every commanded contact by about that much (0.5° is
+~8.7 mm at 1 m). How the camera may move decides how the transform is kept correct:
+
+| Camera placement | What keeps `T_base_cam` correct | Effort |
+|---|---|---|
+| Rigidly on the robot's own frame | One calibration; it survives moving the whole rig | Lowest; **recommended** |
+| On a stand that is moved between sessions | Re-run auto-calibration after every move; detect moves | Minutes per move |
+| On the wrist (eye-in-hand) | One `flange_from_camera` calibration; kinematics gives the pose every frame | Low; also gives multiple viewpoints |
+| Moving freely during a task (head, handheld) | Continuous pose tracking against the robot (markerless robot tracking, or a fiducial on the base) | Hard; not recommended now |
+
+A fixed camera helps because the unknown is a constant. It can be solved once with many
+poses and refinement, validated, and reused, and nothing has to be tracked or timestamped
+at run time.
+
+**What the IMU can and cannot do.** The D435I carries a Bosch BMI055: a 3-axis
+accelerometer and gyroscope, with no magnetometer. Measured on this camera, held still
+for 11 s (`pyrealsense2`, 200 Hz profiles):
+
+| Quantity | Measured |
+|---|---|
+| Gravity direction noise, per sample | 0.16° RMS |
+| Gravity direction, 1 s averages | stable within 0.08° over 11 s |
+| Accelerometer magnitude | 9.737 m/s² (uncalibrated scale/bias, ~0.7 % low) |
+| Gyro bias | up to 0.24°/s per axis; raw integration drifts 3.5° in 11 s |
+| Gyro after subtracting the measured bias | 0.31° in 11 s |
+
+The capture used a blocking frameset read, which delivered ~38 Hz of the 200 Hz streams.
+The static statistics are still valid.
+
+So the IMU observes 2 of the 6 numbers in `T_base_cam`: roll and pitch relative to
+gravity. It cannot observe:
+- **heading about gravity:** there is no magnetometer, which would be unreliable next to
+  motors anyway, and the gyro drifts;
+- **position:** double-integrated acceleration diverges within a fraction of a second.
+
+It cannot replace calibration, but it closes part of the gap:
+
+1. **Detecting a move.** A tilt change of ≥ 0.3° (four times the 1 s noise) or a gyro
+   burst marks the stored calibration stale and triggers a quick recheck. A slow pure
+   slide with no rotation is invisible to the IMU, so the startup visual recheck is
+   still required.
+2. **Constraining a recalibration.** If the robot base's "up" is known (a level base, per
+   the URDF), gravity fixes roll and pitch. Vision then only has to solve yaw and
+   position, which makes a quick recheck better conditioned.
+3. **A camera moving during a task** would need visual-inertial fusion. The IMU steadies
+   short-term rotation, but vision still has to anchor the camera to the robot.
+
+The camera-to-IMU rotation comes from librealsense's motion-module extrinsics. The
+accelerometer's scale error only matters for absolute tilt, not for detecting a change.
+
+## 6. How the arms are moved
+
+Nothing new drives the motors. Calibration uses the same stack as the existing
+controllers, commanded more cautiously:
+
+```
+calibration core (.venv, Python 3.12)             robot bridge (system Python 3.10, rclpy)
+  select next pose ───── joint targets ──────────▶  MoveIt /check_state_validity  (collision: both arms, body, table)
+  predict board in view                             MoveIt planning, velocity/acceleration scaling ~0.1
+                                                    re-time to <= 0.3 rad/s, resample to ~100 Hz  (controllers do not interpolate)
+                                                    FollowJointTrajectory on /left|right_joint_trajectory_controller
+  capture board + joints ◀── settled joints, TF ──  /joint_states, TF base -> flange (robot_state_publisher)
+                                                    abort on: deadman released, tracking error, limit margin, timeout
+                        openarm_bringup (ros2_control, CAN) ──▶ motors
+```
+
+**Launch** (arguments checked against the v1.0 launch files; the CAN interfaces come up
+first with the OpenArm SocketCAN setup script):
+
+```bash
+ros2 launch openarm_bringup openarm.bimanual.launch.py arm_type:=openarm_v1.0 use_fake_hardware:=true   # stage 1
+ros2 launch openarm_bimanual_moveit_config move_group.launch.py arm_type:=openarm_v1.0
+```
+
+Pass `openarm_v1.0` explicitly. The bringup defaults to v2.0, and the MoveIt launch uses
+`arm_type` as its config folder name.
+
+**Where poses come from** (no hand-written pose lists):
+
+1. **Seed.** Each arm is placed once in a "presentation pose" with the board facing the
+   camera; the bridge records the joints.
+2. **Bootstrap.** Six small wrist moves (joints 5–7, ±10°) around the seed, each checked
+   by MoveIt, give a rough calibration.
+3. **Explore.** Candidates are sampled within the profile limits over wrist and elbow
+   joints (±35°). A candidate is kept only if MoveIt says it is collision-free, and if
+   the rough calibration predicts the board inside the image, facing the camera within
+   60°. `select_diverse_pose` then picks the one adding the most new rotation.
+4. **Stop** once rotation diversity and the held-out error meet the acceptance gate.
+
+One arm moves at a time. The other holds position and is part of the collision model.
+
+**Safety staging**, each stage gating the next:
+
+| Stage | Setup | What moves |
+|---|---|---|
+| 1 | Fake hardware (`use_fake_hardware:=true`) + RViz | Nothing physical; checks planning, timing, abort paths |
+| 2 | The existing MuJoCo hardware sim | Simulated arms, with a rendered camera if available |
+| 3 | Real arms at 10 % speed | Each pose approved before execution; e-stop in hand |
+| 4 | Real arms, automatic sequence | Deadman held for the whole run; e-stop in reach |
+
+## 7. The auto-calibration loop
 
 ```
 calibration planner ──▶ safe executor ──▶ synchronized capture ──▶ solver + refinement ──▶ validation report ──▶ versioned calibration + TF
@@ -228,7 +335,7 @@ calibration planner ──▶ safe executor ──▶ synchronized capture ─�
    EasyHeC / EasyHeC++ (differentiable rendering), to detect drift between marker
    calibrations.
 
-## 6. Sources
+## 8. Sources
 
 - OpenCV `calibrateHandEye` / `calibrateRobotWorldHandEye` API and eye-to-hand notes:
   [calib3d.hpp](https://github.com/opencv/opencv/blob/4.x/modules/calib3d/include/opencv2/calib3d.hpp)
@@ -241,4 +348,5 @@ calibration planner ──▶ safe executor ──▶ synchronized capture ─�
 - Hydra: Marker-Free RGB-D Hand-Eye Calibration: [arXiv:2504.20584](https://arxiv.org/abs/2504.20584)
 - franka_ros2 (Franka FR3, ROS 2): [github.com/frankarobotics/franka_ros2](https://github.com/frankarobotics/franka_ros2)
 - LBR-Stack, ROS 2 for KUKA LBR iiwa/Med: [github.com/lbr-stack/lbr_fri_ros2_stack](https://github.com/lbr-stack/lbr_fri_ros2_stack), [arXiv:2311.12709](https://arxiv.org/abs/2311.12709)
+- D435I IMU (Bosch BMI055; accel/gyro rates): [librealsense d435i.md](https://github.com/realsenseai/librealsense/blob/master/doc/d435i.md)
 - Intel RealSense D400 self-calibration and health check: [RealSense docs](https://dev.realsenseai.com/docs/intel-realsense-self-calibration-for-d400-series-depth-cameras/)
