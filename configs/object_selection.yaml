@@ -1,0 +1,48 @@
+# M1/M2 click-to-mask selection and selected-object metric geometry (LINUX_AGENT_BRIEF.md).
+#
+# Outputs are in the RealSense color optical frame (X right, Y down, Z forward). Nothing
+# here is a robot-frame pose, and nothing here commands motion.
+realsense:
+  serial_number: "146322071961"
+  color_width: 640
+  color_height: 480
+  color_fps: 30
+  depth_width: 640
+  depth_height: 480
+  depth_fps: 30
+
+selection:
+  # Chosen from measurements in docs/selection/BACKEND_DECISION.md.
+  backend: efficienttam-ti
+  # Relative to the repository root. Must contain EfficientTAM/, sam2/, and
+  # model-checkpoints/ as created by scripts/setup_selection_models.sh.
+  models_root: ..
+  device: cuda:0
+  memory_window_frames: 16
+  max_conditioning_frames: 4
+  # null keeps the model's trained 6 recent memories. Fewer is faster (3: 31 ms, 2: 29 ms
+  # vs 38 ms per frame) but lost mask quality and identity on the replay suite
+  # (docs/selection/M1-backend-decision.md), so it is not used.
+  recent_memory_frames: null
+  policy:
+    minimum_object_score: 0.5
+    minimum_mask_pixels: 50
+    max_area_ratio: 4.0
+
+geometry:
+  # UNCALIBRATED PLACEHOLDER, deliberately generous: it only rejects points that are
+  # clearly not on the bench in front of the camera (the 2026-09-16 scene has objects at
+  # 0.85-1.6 m). Replace with measured bounds once the camera mount is calibrated.
+  workspace:
+    minimum_metres: [-0.90, -0.70, 0.20]
+    maximum_metres: [0.90, 0.70, 1.80]
+  min_depth_metres: 0.2
+  max_depth_metres: 2.0
+  sampling_stride: 2
+  require_support_plane: false
+  table_clearance_metres: 0.01
+  plane_distance_threshold_metres: 0.008
+  plane_refit_interval_frames: 10
+  maximum_plane_intrusion_metres: 0.05
+  minimum_neighbours: 3
+  minimum_points: 30

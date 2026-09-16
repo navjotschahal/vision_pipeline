@@ -1,0 +1,15 @@
+# Click targets for the deterministic tracking-quality suite
+# (python -m vision_pipeline.apps.benchmark_selection quality).
+# Clicks are pixel indices on each recording's first frame.
+sequences:
+  - recording: recordings/d435i_table_static
+    targets:
+      - {name: taped_box, click: [360, 400]}
+      - {name: white_ball, click: [218, 432]}
+      - {name: side_table_box, click: [585, 105]}
+      - {name: black_remote, click: [480, 322]}
+      - {name: gripper, click: [300, 190]}
+  - recording: recordings/d435i_m0
+    targets:
+      - {name: dark_case_side, click: [115, 175]}
+      - {name: dark_equipment_panel, click: [470, 300]}

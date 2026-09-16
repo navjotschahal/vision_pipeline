@@ -1,0 +1,6336 @@
+{
+ "command": "/home/nschahal/work/vision_pipeline/src/vision_pipeline/apps/benchmark_selection.py stream --backend sam2.1-hiera-tiny --replay recordings/d435i_table_static --click 218 432 --duration 12 --output docs/selection/m1-stream/replay-sam2.1-hiera-tiny.json",
+ "environment": {
+  "torch": "2.7.1+cu126",
+  "cuda_device": "NVIDIA GeForce RTX 3070",
+  "numpy": "2.4.6",
+  "opencv": "4.14.0",
+  "backends": {
+   "efficienttam-ti": {
+    "name": "efficienttam-ti",
+    "package": "efficient_track_anything",
+    "builder_module": "efficient_track_anything.build_efficienttam",
+    "builder": "build_efficienttam_video_predictor",
+    "config": "configs/efficienttam/efficienttam_ti.yaml",
+    "repository_url": "https://github.com/yformer/EfficientTAM",
+    "revision": "abcd061ebd3cc6e7527d152d75b890126aaa53f6",
+    "checkpoint_url": "https://huggingface.co/yunyangx/efficient-track-anything/resolve/main/efficienttam_ti.pt",
+    "checkpoint_sha256": "acbb17b28cca1f860acee09c9ecb6efdb732080dc7a85a07292c31813175fa7d",
+    "license": "Apache-2.0"
+   },
+   "sam2.1-hiera-tiny": {
+    "name": "sam2.1-hiera-tiny",
+    "package": "sam2",
+    "builder_module": "sam2.build_sam",
+    "builder": "build_sam2_video_predictor",
+    "config": "configs/sam2.1/sam2.1_hiera_t.yaml",
+    "repository_url": "https://github.com/facebookresearch/sam2",
+    "revision": "2b90b9f5ceec907a1c18123530e92e794ad901a4",
+    "checkpoint_url": "https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_tiny.pt",
+    "checkpoint_sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69",
+    "license": "Apache-2.0 (model code and checkpoints); BSD-3-Clause (cc_torch kernel)"
+   }
+  }
+ },
+ "backend": "sam2.1-hiera-tiny",
+ "recent_memory_frames": null,
+ "source": "paced-replay:recordings/d435i_table_static",
+ "device": null,
+ "clicks": [
+  {
+   "x": 218.0,
+   "y": 432.0,
+   "positive": true
+  }
+ ],
+ "duration_s": 12.0,
+ "settle_seconds_excluded": 2.0,
+ "model_load_s": 0.6339450299274176,
+ "pipeline_stats": {
+  "capture_frames_read": 300,
+  "capture_frames_overwritten": 117,
+  "capture_sequence_gaps": 2,
+  "frames_processed": 183,
+  "tracking_outputs": 182,
+  "lost_events": 0,
+  "geometry_computed": 182,
+  "geometry_rejected": {},
+  "geometry_inputs_overwritten": 0,
+  "worker_ms": {
+   "count": 183,
+   "p50": 53.930327063426375,
+   "p95": 55.343432701192796,
+   "maximum": 327.40195910446346
+  },
+  "host_receive_to_mask_ms": {
+   "count": 0,
+   "p50": null,
+   "p95": null,
+   "maximum": null
+  },
+  "capture_to_mask_ms": {
+   "count": 0,
+   "p50": null,
+   "p95": null,
+   "maximum": null
+  },
+  "geometry_ms": {
+   "count": 182,
+   "p50": 4.3415953405201435,
+   "p95": 11.468515254091471,
+   "maximum": 18.444895977154374
+  },
+  "capture_to_geometry_ms": {
+   "count": 0,
+   "p50": null,
+   "p95": null,
+   "maximum": null
+  }
+ },
+ "tracking_outputs": 182,
+ "steady_tracking_outputs": 144,
+ "sustained_tracking_fps": 18.455120905155667,
+ "worker_ms_p50_p95": [
+  53.639337536878884,
+  55.41428728029132
+ ],
+ "host_receive_to_mask_ms_p50_p95": null,
+ "capture_to_mask_ms_p50_p95": null,
+ "stale_outputs_over_100ms": 0,
+ "stale_fraction_over_100ms": null,
+ "lost_events": 0,
+ "first_loss": null,
+ "sustained_geometry_fps": 18.45563710136497,
+ "geometry_ms_p50_p95": [
+  4.312825039960444,
+  11.399678466841577
+ ],
+ "capture_to_geometry_ms_p50_p95": null,
+ "centroid_std_metres": [
+  0.00044193263684457796,
+  0.0014107362872069495,
+  0.0020426010750312167
+ ],
+ "peak_allocated_mib": 641.51318359375,
+ "peak_reserved_mib": 786.0,
+ "process_gpu_mib_max": 986.0,
+ "latency_note": "capture_to_mask uses librealsense global_time (SDK device-to-host-realtime mapping, error unmeasured); host_receive_to_mask starts after USB transfer",
+ "mask_rows": [
+  {
+   "index": 0,
+   "t": 1198719.827154098,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/30",
+   "color_sequence": 37,
+   "state": "UNSELECTED",
+   "selection_id": 0,
+   "loss_reason": null,
+   "worker_ms": 0.01354096457362175,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": null,
+   "mask_pixels": 0,
+   "command_errors": []
+  },
+  {
+   "index": 1,
+   "t": 1198720.188240187,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/31",
+   "color_sequence": 38,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 327.40195910446346,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999929666519165,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 2,
+   "t": 1198720.232447877,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/40",
+   "color_sequence": 47,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 44.07826717942953,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9999097585678101,
+   "mask_pixels": 1807,
+   "command_errors": []
+  },
+  {
+   "index": 3,
+   "t": 1198720.276460449,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/42",
+   "color_sequence": 49,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 43.97279303520918,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999841570854187,
+   "mask_pixels": 1829,
+   "command_errors": []
+  },
+  {
+   "index": 4,
+   "t": 1198720.323549311,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/43",
+   "color_sequence": 50,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 47.04405879601836,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1824,
+   "command_errors": []
+  },
+  {
+   "index": 5,
+   "t": 1198720.372201873,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/44",
+   "color_sequence": 51,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 48.61241509206593,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1825,
+   "command_errors": []
+  },
+  {
+   "index": 6,
+   "t": 1198720.42317984,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/46",
+   "color_sequence": 53,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 50.93508306890726,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1828,
+   "command_errors": []
+  },
+  {
+   "index": 7,
+   "t": 1198720.477119445,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/47",
+   "color_sequence": 54,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.89963602647185,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1823,
+   "command_errors": []
+  },
+  {
+   "index": 8,
+   "t": 1198720.530386227,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/49",
+   "color_sequence": 56,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.19496709853411,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1828,
+   "command_errors": []
+  },
+  {
+   "index": 9,
+   "t": 1198720.583859004,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/51",
+   "color_sequence": 58,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.428638027980924,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999841570854187,
+   "mask_pixels": 1823,
+   "command_errors": []
+  },
+  {
+   "index": 10,
+   "t": 1198720.637074226,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/52",
+   "color_sequence": 59,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.17011405713856,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998313188552856,
+   "mask_pixels": 1823,
+   "command_errors": []
+  },
+  {
+   "index": 11,
+   "t": 1198720.691363444,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/54",
+   "color_sequence": 61,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.19892887584865,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998313188552856,
+   "mask_pixels": 1822,
+   "command_errors": []
+  },
+  {
+   "index": 12,
+   "t": 1198720.744716712,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/55",
+   "color_sequence": 62,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.30250598490238,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998205304145813,
+   "mask_pixels": 1821,
+   "command_errors": []
+  },
+  {
+   "index": 13,
+   "t": 1198720.79880093,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/57",
+   "color_sequence": 64,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.99296106770635,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998089671134949,
+   "mask_pixels": 1822,
+   "command_errors": []
+  },
+  {
+   "index": 14,
+   "t": 1198720.852378794,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/59",
+   "color_sequence": 66,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.534978069365025,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998205304145813,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 15,
+   "t": 1198720.914484375,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/60",
+   "color_sequence": 67,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.4897290635854,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998089671134949,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 16,
+   "t": 1198720.968548155,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/62",
+   "color_sequence": 69,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.02682279236615,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999841570854187,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 17,
+   "t": 1198721.022680105,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/64",
+   "color_sequence": 71,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.08499506302178,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999841570854187,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 18,
+   "t": 1198721.077512932,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/65",
+   "color_sequence": 72,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.75631100125611,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999841570854187,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 19,
+   "t": 1198721.131671767,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/67",
+   "color_sequence": 74,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.080636939033866,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 20,
+   "t": 1198721.187094697,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/69",
+   "color_sequence": 76,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.343959014862776,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 21,
+   "t": 1198721.241360098,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/70",
+   "color_sequence": 77,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.21102303080261,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 22,
+   "t": 1198721.295560171,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/71",
+   "color_sequence": 78,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.15837210603058,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 23,
+   "t": 1198721.349746421,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/74",
+   "color_sequence": 81,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.09021209925413,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 24,
+   "t": 1198721.404370744,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/75",
+   "color_sequence": 82,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.580814903602004,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 25,
+   "t": 1198721.458664676,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/77",
+   "color_sequence": 84,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.18258090503514,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 26,
+   "t": 1198721.512902451,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/78",
+   "color_sequence": 85,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.19447598978877,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 27,
+   "t": 1198721.56789259,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/80",
+   "color_sequence": 87,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.94226887822151,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 28,
+   "t": 1198721.622201481,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/82",
+   "color_sequence": 89,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.213091963902116,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 29,
+   "t": 1198721.676995756,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/83",
+   "color_sequence": 90,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.70162397250533,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 30,
+   "t": 1198721.731190588,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/85",
+   "color_sequence": 92,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.12878002971411,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 31,
+   "t": 1198721.786056183,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/87",
+   "color_sequence": 94,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.77155698463321,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 32,
+   "t": 1198721.839476774,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/88",
+   "color_sequence": 95,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.37430303916335,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 33,
+   "t": 1198721.893685439,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/90",
+   "color_sequence": 97,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.16607903316617,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 34,
+   "t": 1198721.947198307,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/91",
+   "color_sequence": 98,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.456530906260014,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 35,
+   "t": 1198722.000720071,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/92",
+   "color_sequence": 99,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.48327290266752,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 36,
+   "t": 1198722.054200225,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/95",
+   "color_sequence": 102,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.43660805374384,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 37,
+   "t": 1198722.115348703,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/96",
+   "color_sequence": 103,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.44707821495831,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 38,
+   "t": 1198722.169418106,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/98",
+   "color_sequence": 105,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.03193202801049,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 39,
+   "t": 1198722.222983476,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/100",
+   "color_sequence": 107,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.52390184998512,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 40,
+   "t": 1198722.277084245,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/101",
+   "color_sequence": 108,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.04880899004638,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 41,
+   "t": 1198722.330651135,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/103",
+   "color_sequence": 110,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.525323048233986,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 42,
+   "t": 1198722.384934324,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/105",
+   "color_sequence": 112,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.19876682572067,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 43,
+   "t": 1198722.438501792,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/106",
+   "color_sequence": 113,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.52607206441462,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 44,
+   "t": 1198722.492656607,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/108",
+   "color_sequence": 115,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.11086697131395,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 45,
+   "t": 1198722.546105856,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/109",
+   "color_sequence": 116,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.39968902990222,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 46,
+   "t": 1198722.600184205,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/111",
+   "color_sequence": 118,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.039659909904,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 47,
+   "t": 1198722.653691298,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/113",
+   "color_sequence": 120,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.465343080461025,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 48,
+   "t": 1198722.707157988,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/114",
+   "color_sequence": 121,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.42811392620206,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 49,
+   "t": 1198722.760641142,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/116",
+   "color_sequence": 123,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.43317403458059,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 50,
+   "t": 1198722.814176091,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/117",
+   "color_sequence": 124,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.49492095410824,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 51,
+   "t": 1198722.868465572,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/119",
+   "color_sequence": 126,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.24338998273015,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 52,
+   "t": 1198722.9218967,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/121",
+   "color_sequence": 128,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.394072223454714,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 53,
+   "t": 1198722.976056497,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/122",
+   "color_sequence": 129,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.11359900608659,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 54,
+   "t": 1198723.029608625,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/124",
+   "color_sequence": 131,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.502550814300776,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 55,
+   "t": 1198723.083925758,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/126",
+   "color_sequence": 133,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.27394504658878,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 56,
+   "t": 1198723.137439683,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/127",
+   "color_sequence": 134,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.46119008027017,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 57,
+   "t": 1198723.191041982,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/129",
+   "color_sequence": 136,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.54942800477147,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 58,
+   "t": 1198723.250430363,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/130",
+   "color_sequence": 137,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.17312006466091,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 59,
+   "t": 1198723.303895208,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/132",
+   "color_sequence": 139,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.426230093464255,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 60,
+   "t": 1198723.35814499,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/134",
+   "color_sequence": 141,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.199320962652564,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 61,
+   "t": 1198723.411672808,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/135",
+   "color_sequence": 142,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.45078022219241,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 62,
+   "t": 1198723.46512775,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/137",
+   "color_sequence": 144,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.4167168661952,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 63,
+   "t": 1198723.518619946,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/139",
+   "color_sequence": 146,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.45236510038376,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 64,
+   "t": 1198723.57279153,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/140",
+   "color_sequence": 147,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.13246690295637,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 65,
+   "t": 1198723.626342166,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/142",
+   "color_sequence": 149,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.45388106070459,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 66,
+   "t": 1198723.68038116,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/143",
+   "color_sequence": 150,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.994951071217656,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 67,
+   "t": 1198723.733860264,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/145",
+   "color_sequence": 152,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.438717033714056,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 68,
+   "t": 1198723.787361405,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/147",
+   "color_sequence": 154,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.460801020264626,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 69,
+   "t": 1198723.841507536,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/148",
+   "color_sequence": 155,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.106571013107896,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1830,
+   "command_errors": []
+  },
+  {
+   "index": 70,
+   "t": 1198723.895089949,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/150",
+   "color_sequence": 157,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.53955179452896,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1842,
+   "command_errors": []
+  },
+  {
+   "index": 71,
+   "t": 1198723.949388361,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/151",
+   "color_sequence": 158,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.24895603209734,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 72,
+   "t": 1198724.002942661,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/153",
+   "color_sequence": 160,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.458064096048474,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 73,
+   "t": 1198724.057158054,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/155",
+   "color_sequence": 162,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.17340900748968,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 74,
+   "t": 1198724.110676625,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/156",
+   "color_sequence": 163,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.47649613395333,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 75,
+   "t": 1198724.164076747,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/158",
+   "color_sequence": 165,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.36311017163098,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 76,
+   "t": 1198724.217607503,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/160",
+   "color_sequence": 167,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.4902170766145,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 77,
+   "t": 1198724.271147159,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/161",
+   "color_sequence": 168,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.48085192963481,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 78,
+   "t": 1198724.325242695,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/163",
+   "color_sequence": 170,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.05272403731942,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 79,
+   "t": 1198724.37872472,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/164",
+   "color_sequence": 171,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.44094196334481,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 80,
+   "t": 1198724.432929129,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/166",
+   "color_sequence": 173,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.15516789071262,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 81,
+   "t": 1198724.486540133,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/168",
+   "color_sequence": 175,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.57033992186189,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 82,
+   "t": 1198724.540651939,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/169",
+   "color_sequence": 176,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.071432910859585,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 83,
+   "t": 1198724.594064464,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/171",
+   "color_sequence": 178,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.36410505697131,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 84,
+   "t": 1198724.648496846,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/172",
+   "color_sequence": 179,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.3896509334445,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 85,
+   "t": 1198724.70203287,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/174",
+   "color_sequence": 181,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.49022010341287,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 86,
+   "t": 1198724.755665098,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/175",
+   "color_sequence": 182,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.539731074124575,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 87,
+   "t": 1198724.809844417,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/177",
+   "color_sequence": 184,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.12762193009257,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 88,
+   "t": 1198724.863399249,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/179",
+   "color_sequence": 186,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.483478957787156,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 89,
+   "t": 1198724.917012406,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/180",
+   "color_sequence": 187,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.54039487428963,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 90,
+   "t": 1198724.970533996,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/182",
+   "color_sequence": 189,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.420959040522575,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 91,
+   "t": 1198725.02479886,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/184",
+   "color_sequence": 191,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.19706390239298,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 92,
+   "t": 1198725.078412604,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/185",
+   "color_sequence": 192,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.48168686032295,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 93,
+   "t": 1198725.132612963,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/186",
+   "color_sequence": 193,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.15536114014685,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 94,
+   "t": 1198725.186176662,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/188",
+   "color_sequence": 195,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.51778701879084,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 95,
+   "t": 1198725.251256501,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/189",
+   "color_sequence": 197,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.21871202997863,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 96,
+   "t": 1198725.30472812,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/191",
+   "color_sequence": 199,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.42981219291687,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 97,
+   "t": 1198725.358822123,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/193",
+   "color_sequence": 201,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.02429914101958,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 98,
+   "t": 1198725.412423742,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/194",
+   "color_sequence": 202,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.49748604930937,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 99,
+   "t": 1198725.465872745,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/196",
+   "color_sequence": 204,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.40905603952706,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1841,
+   "command_errors": []
+  },
+  {
+   "index": 100,
+   "t": 1198725.520153087,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/198",
+   "color_sequence": 206,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.21123583801091,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 101,
+   "t": 1198725.573639011,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/199",
+   "color_sequence": 207,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.41376201249659,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 102,
+   "t": 1198725.627114946,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/201",
+   "color_sequence": 209,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.43681597150862,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 103,
+   "t": 1198725.680722303,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/202",
+   "color_sequence": 210,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.53917204774916,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 104,
+   "t": 1198725.734964417,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/203",
+   "color_sequence": 211,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.20145113021135,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 105,
+   "t": 1198725.78845451,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/206",
+   "color_sequence": 214,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.448230028152466,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 106,
+   "t": 1198725.842666607,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/207",
+   "color_sequence": 215,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.165733978152275,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 107,
+   "t": 1198725.896220104,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/208",
+   "color_sequence": 216,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.45769412815571,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 108,
+   "t": 1198725.949729195,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/210",
+   "color_sequence": 218,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.460707888007164,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 109,
+   "t": 1198726.00465396,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/212",
+   "color_sequence": 220,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.87411189824343,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 110,
+   "t": 1198726.058815676,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/214",
+   "color_sequence": 222,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.10719197243452,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 111,
+   "t": 1198726.113003007,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/215",
+   "color_sequence": 223,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.136441089212894,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 112,
+   "t": 1198726.167412164,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/216",
+   "color_sequence": 224,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.328512866050005,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 113,
+   "t": 1198726.222332225,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/219",
+   "color_sequence": 227,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.838486947119236,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 114,
+   "t": 1198726.276561724,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/220",
+   "color_sequence": 228,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.184528067708015,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 115,
+   "t": 1198726.330842189,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/222",
+   "color_sequence": 230,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.22563501633704,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 116,
+   "t": 1198726.385270535,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/223",
+   "color_sequence": 231,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.38234517350793,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 117,
+   "t": 1198726.439671302,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/225",
+   "color_sequence": 233,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.338457994163036,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 118,
+   "t": 1198726.494590436,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/227",
+   "color_sequence": 235,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.837956093251705,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 119,
+   "t": 1198726.548852789,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/228",
+   "color_sequence": 236,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.176941979676485,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 120,
+   "t": 1198726.603945436,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/230",
+   "color_sequence": 238,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.00780395232141,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 121,
+   "t": 1198726.658092339,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/231",
+   "color_sequence": 239,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.100655019283295,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 122,
+   "t": 1198726.719596544,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/232",
+   "color_sequence": 241,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.4174718670547,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 123,
+   "t": 1198726.773256509,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/234",
+   "color_sequence": 243,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.58065222389996,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 124,
+   "t": 1198726.827442848,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/236",
+   "color_sequence": 245,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.138552863150835,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 125,
+   "t": 1198726.885587831,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/237",
+   "color_sequence": 246,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.31433587707579,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 126,
+   "t": 1198726.939804463,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/239",
+   "color_sequence": 248,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.15639583952725,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 127,
+   "t": 1198726.993465545,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/240",
+   "color_sequence": 249,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.57527290470898,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 128,
+   "t": 1198727.046960848,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/242",
+   "color_sequence": 251,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.43995406292379,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 129,
+   "t": 1198727.100525932,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/244",
+   "color_sequence": 253,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.51867200806737,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1830,
+   "command_errors": []
+  },
+  {
+   "index": 130,
+   "t": 1198727.156067799,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/245",
+   "color_sequence": 254,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.49507006071508,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 131,
+   "t": 1198727.210533195,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/247",
+   "color_sequence": 256,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.38197101466358,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 132,
+   "t": 1198727.263942414,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/249",
+   "color_sequence": 258,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.37302782572806,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 133,
+   "t": 1198727.318171097,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/250",
+   "color_sequence": 259,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.14609587751329,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 134,
+   "t": 1198727.371665588,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/252",
+   "color_sequence": 261,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.42295207083225,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 135,
+   "t": 1198727.425842295,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/254",
+   "color_sequence": 263,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.13886602036655,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 136,
+   "t": 1198727.479257018,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/255",
+   "color_sequence": 264,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.373325150460005,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 137,
+   "t": 1198727.533365349,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/256",
+   "color_sequence": 265,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.0691779460758,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 138,
+   "t": 1198727.586743092,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/259",
+   "color_sequence": 268,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.34101989865303,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 139,
+   "t": 1198727.640712016,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/260",
+   "color_sequence": 269,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.930327063426375,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 140,
+   "t": 1198727.694200098,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/262",
+   "color_sequence": 271,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.39810089208186,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 141,
+   "t": 1198727.747732834,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/263",
+   "color_sequence": 272,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.49862389266491,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 142,
+   "t": 1198727.801164347,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/265",
+   "color_sequence": 274,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.390215151011944,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1841,
+   "command_errors": []
+  },
+  {
+   "index": 143,
+   "t": 1198727.854539814,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/267",
+   "color_sequence": 276,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.332000970840454,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 144,
+   "t": 1198727.90874681,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/268",
+   "color_sequence": 277,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.15969714522362,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 145,
+   "t": 1198727.962253737,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/270",
+   "color_sequence": 279,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.468455793336034,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 146,
+   "t": 1198728.01640045,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/271",
+   "color_sequence": 280,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.10857079550624,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 147,
+   "t": 1198728.0697793,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/273",
+   "color_sequence": 282,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.34154702723026,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 148,
+   "t": 1198728.124150067,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/274",
+   "color_sequence": 283,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.31266198866069,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 149,
+   "t": 1198728.177549412,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/276",
+   "color_sequence": 285,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.35457599721849,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 150,
+   "t": 1198728.230924197,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/278",
+   "color_sequence": 287,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.341556107625365,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 151,
+   "t": 1198728.285043512,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/279",
+   "color_sequence": 288,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.085249081254005,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 152,
+   "t": 1198728.338425125,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/281",
+   "color_sequence": 290,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.323747823014855,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 153,
+   "t": 1198728.392559656,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/283",
+   "color_sequence": 292,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.0893271099776,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 154,
+   "t": 1198728.4462937,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/284",
+   "color_sequence": 293,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.672936046496034,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 155,
+   "t": 1198728.500918136,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/286",
+   "color_sequence": 295,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.56251581199467,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 156,
+   "t": 1198728.554628018,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/288",
+   "color_sequence": 297,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.605739027261734,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 157,
+   "t": 1198728.608974277,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/289",
+   "color_sequence": 298,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.24910201691091,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 158,
+   "t": 1198728.66239479,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/291",
+   "color_sequence": 300,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.37799992412329,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1833,
+   "command_errors": []
+  },
+  {
+   "index": 159,
+   "t": 1198728.715821948,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/292",
+   "color_sequence": 301,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.38994902558625,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 160,
+   "t": 1198728.770008238,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/294",
+   "color_sequence": 303,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.12803404033184,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 161,
+   "t": 1198728.82339127,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/296",
+   "color_sequence": 305,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.33928600884974,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 162,
+   "t": 1198728.877523652,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/297",
+   "color_sequence": 306,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.096956038847566,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 163,
+   "t": 1198728.930884645,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/299",
+   "color_sequence": 308,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.316628094762564,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 164,
+   "t": 1198728.985153478,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/300",
+   "color_sequence": 309,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.22108597122133,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1834,
+   "command_errors": []
+  },
+  {
+   "index": 165,
+   "t": 1198729.038531387,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/302",
+   "color_sequence": 311,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.34283807314932,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 166,
+   "t": 1198729.0951728,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/303",
+   "color_sequence": 312,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 56.60073598846793,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1840,
+   "command_errors": []
+  },
+  {
+   "index": 167,
+   "t": 1198729.150731788,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/305",
+   "color_sequence": 314,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.51740503869951,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 168,
+   "t": 1198729.205235837,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/307",
+   "color_sequence": 316,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.394378094002604,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 169,
+   "t": 1198729.258603639,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/309",
+   "color_sequence": 318,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.33086010068655,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 170,
+   "t": 1198729.312167156,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/310",
+   "color_sequence": 319,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.527327021583915,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 171,
+   "t": 1198729.366189811,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/312",
+   "color_sequence": 321,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.98410093039274,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 172,
+   "t": 1198729.419600533,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/313",
+   "color_sequence": 322,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.35141299292445,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 173,
+   "t": 1198729.473691428,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/315",
+   "color_sequence": 324,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.05287886969745,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1839,
+   "command_errors": []
+  },
+  {
+   "index": 174,
+   "t": 1198729.527108656,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/317",
+   "color_sequence": 326,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 53.33110992796719,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  },
+  {
+   "index": 175,
+   "t": 1198729.581908205,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/318",
+   "color_sequence": 327,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 54.762540850788355,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 176,
+   "t": 1198729.637809521,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/320",
+   "color_sequence": 329,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.861227912828326,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1837,
+   "command_errors": []
+  },
+  {
+   "index": 177,
+   "t": 1198729.693279228,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/322",
+   "color_sequence": 331,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.42762693949044,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 178,
+   "t": 1198729.748773391,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/323",
+   "color_sequence": 332,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.45370001345873,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.999868631362915,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 179,
+   "t": 1198729.804780853,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/325",
+   "color_sequence": 334,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.96335791051388,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998511075973511,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 180,
+   "t": 1198729.860123812,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/326",
+   "color_sequence": 335,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.30176009051502,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1836,
+   "command_errors": []
+  },
+  {
+   "index": 181,
+   "t": 1198729.915512556,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/328",
+   "color_sequence": 337,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.33869587816298,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1835,
+   "command_errors": []
+  },
+  {
+   "index": 182,
+   "t": 1198729.971510334,
+   "frameset_id": "6733e464c9254b0c9a7d7357d996fef5/realsense-frameset/329",
+   "color_sequence": 338,
+   "state": "TRACKING",
+   "selection_id": 1,
+   "loss_reason": null,
+   "worker_ms": 55.93351786956191,
+   "host_receive_to_mask_ms": null,
+   "capture_to_mask_ms": null,
+   "object_score": 0.9998601675033569,
+   "mask_pixels": 1838,
+   "command_errors": []
+  }
+ ],
+ "geometry_rows": [
+  {
+   "index": 0,
+   "t": 1198719.827260222,
+   "geometry_ms": 0.0008819624781608582,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": null,
+   "box_size_metres": null,
+   "points": null,
+   "valid_depth_fraction": null
+  },
+  {
+   "index": 1,
+   "t": 1198720.206713576,
+   "geometry_ms": 18.444895977154374,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15893768737803193,
+    0.29175387534815356,
+    0.9151038824839194
+   ],
+   "box_size_metres": [
+    0.07669049473056279,
+    0.07227688903452614,
+    0.03561121451988187
+   ],
+   "points": 443,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 2,
+   "t": 1198720.237015724,
+   "geometry_ms": 4.406902007758617,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15896604377045093,
+    0.29182423998797463,
+    0.9144272965316684
+   ],
+   "box_size_metres": [
+    0.06774501704232479,
+    0.06865647368405534,
+    0.04012029922760722
+   ],
+   "points": 433,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 3,
+   "t": 1198720.281020203,
+   "geometry_ms": 4.4470070861279964,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15867686254999516,
+    0.292329991757203,
+    0.914033601881407
+   ],
+   "box_size_metres": [
+    0.06947600355142673,
+    0.07056862034852592,
+    0.03758929787631053
+   ],
+   "points": 447,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 4,
+   "t": 1198720.327842893,
+   "geometry_ms": 4.1541720274835825,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15895480384429295,
+    0.29181392868359884,
+    0.9150800453291998
+   ],
+   "box_size_metres": [
+    0.07668697962251289,
+    0.07186223180171647,
+    0.03652629498952857
+   ],
+   "points": 450,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 5,
+   "t": 1198720.376423149,
+   "geometry_ms": 4.070529947057366,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1583494768077574,
+    0.29077773882770763,
+    0.9149620399905497
+   ],
+   "box_size_metres": [
+    0.06855178104162281,
+    0.06415966717931709,
+    0.04421463377510945
+   ],
+   "points": 421,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 6,
+   "t": 1198720.427495672,
+   "geometry_ms": 4.159396048635244,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15879891422220263,
+    0.2920436150176935,
+    0.9144581954122115
+   ],
+   "box_size_metres": [
+    0.07740168050378998,
+    0.07083476716832146,
+    0.033012357674599105
+   ],
+   "points": 454,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 7,
+   "t": 1198720.481383811,
+   "geometry_ms": 4.223658936098218,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15868252981454134,
+    0.29057850796156204,
+    0.9154495631272976
+   ],
+   "box_size_metres": [
+    0.0684186083916571,
+    0.06800922813647885,
+    0.043274674082016525
+   ],
+   "points": 416,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 8,
+   "t": 1198720.534677448,
+   "geometry_ms": 4.164173034951091,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589745854058962,
+    0.2925855964087368,
+    0.9150404931454176
+   ],
+   "box_size_metres": [
+    0.07646070061623422,
+    0.07238261767402401,
+    0.037666866610824266
+   ],
+   "points": 445,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 9,
+   "t": 1198720.588166021,
+   "geometry_ms": 4.174323985353112,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15895623918747742,
+    0.29270691499614077,
+    0.9150268896847497
+   ],
+   "box_size_metres": [
+    0.0764102912939068,
+    0.07303978570032299,
+    0.03206057380039255
+   ],
+   "points": 447,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 10,
+   "t": 1198720.641267914,
+   "geometry_ms": 4.139537923038006,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15845247625242628,
+    0.291871322024373,
+    0.9123096209857405
+   ],
+   "box_size_metres": [
+    0.07804900599865791,
+    0.07261226629931755,
+    0.03542506303376952
+   ],
+   "points": 449,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 11,
+   "t": 1198720.703675411,
+   "geometry_ms": 12.16457411646843,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15858297155728096,
+    0.29144571031012184,
+    0.9134701111099937
+   ],
+   "box_size_metres": [
+    0.07505798913265802,
+    0.07254689659987171,
+    0.04211919761256859
+   ],
+   "points": 451,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 12,
+   "t": 1198720.748946086,
+   "geometry_ms": 4.175371956080198,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15917865196776285,
+    0.29253326166043725,
+    0.9168040097284947
+   ],
+   "box_size_metres": [
+    0.08127440796740261,
+    0.0710558076819083,
+    0.03064803504099913
+   ],
+   "points": 454,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 13,
+   "t": 1198720.803186329,
+   "geometry_ms": 4.2580352164804935,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1590282427413123,
+    0.2926099856517145,
+    0.9151161144088421
+   ],
+   "box_size_metres": [
+    0.08296411429934844,
+    0.07199246249435005,
+    0.032467728689785674
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 14,
+   "t": 1198720.856241725,
+   "geometry_ms": 3.756796009838581,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1586142824691476,
+    0.2902355162987431,
+    0.9151383933511753
+   ],
+   "box_size_metres": [
+    0.06874854792220447,
+    0.0665066090186412,
+    0.038939459605124106
+   ],
+   "points": 412,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 15,
+   "t": 1198720.919264876,
+   "geometry_ms": 4.622856853529811,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1585252525380058,
+    0.2902421856303575,
+    0.9151143990003859
+   ],
+   "box_size_metres": [
+    0.06863708050403872,
+    0.06656072440873358,
+    0.03893838181207611
+   ],
+   "points": 411,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 16,
+   "t": 1198720.973915433,
+   "geometry_ms": 5.248070927336812,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1591300527658759,
+    0.2898749493098145,
+    0.9168158331841373
+   ],
+   "box_size_metres": [
+    0.0690845556271158,
+    0.07122483356006673,
+    0.036256011878719796
+   ],
+   "points": 418,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 17,
+   "t": 1198721.028303874,
+   "geometry_ms": 5.580245982855558,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589175099465582,
+    0.291740329000685,
+    0.9139511549472809
+   ],
+   "box_size_metres": [
+    0.07874766017111412,
+    0.0694716674274513,
+    0.03572128554367341
+   ],
+   "points": 450,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 18,
+   "t": 1198721.082973872,
+   "geometry_ms": 5.426975898444653,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15821769249205495,
+    0.2896862553030837,
+    0.916573575752623
+   ],
+   "box_size_metres": [
+    0.0685650883743483,
+    0.0659891792564214,
+    0.043055393532566856
+   ],
+   "points": 408,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 19,
+   "t": 1198721.137583323,
+   "geometry_ms": 5.877859890460968,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15898752170043035,
+    0.2916431298250692,
+    0.9138618855361353
+   ],
+   "box_size_metres": [
+    0.08163869027065575,
+    0.06971860187360703,
+    0.03264441655285539
+   ],
+   "points": 456,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 20,
+   "t": 1198721.191549198,
+   "geometry_ms": 4.309294978156686,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15959657953531892,
+    0.2927439150375289,
+    0.9152387838374387
+   ],
+   "box_size_metres": [
+    0.08010857566399121,
+    0.07260253900324215,
+    0.036840422572966866
+   ],
+   "points": 444,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 21,
+   "t": 1198721.253391614,
+   "geometry_ms": 11.902405880391598,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15883070287282156,
+    0.2920313391316632,
+    0.9129305364305128
+   ],
+   "box_size_metres": [
+    0.07712300843395944,
+    0.07277683032392476,
+    0.03766329928895515
+   ],
+   "points": 446,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 22,
+   "t": 1198721.300560913,
+   "geometry_ms": 4.947606939822435,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15829318155046976,
+    0.28742363173875785,
+    0.9205457510380204
+   ],
+   "box_size_metres": [
+    0.07035751128201839,
+    0.05952825516103605,
+    0.03993201031244653
+   ],
+   "points": 361,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 23,
+   "t": 1198721.354314083,
+   "geometry_ms": 4.446387058123946,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15989898698459756,
+    0.29100866637902684,
+    0.9188515294601421
+   ],
+   "box_size_metres": [
+    0.06850216039022682,
+    0.06702021580509168,
+    0.03375629328849043
+   ],
+   "points": 404,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 24,
+   "t": 1198721.409153566,
+   "geometry_ms": 4.717495059594512,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589324129724714,
+    0.29194814482179293,
+    0.9140754306395672
+   ],
+   "box_size_metres": [
+    0.08221243696952255,
+    0.07070650912262015,
+    0.03243220383500854
+   ],
+   "points": 451,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 25,
+   "t": 1198721.4631343,
+   "geometry_ms": 4.338539903983474,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15829300426589657,
+    0.2884739032251581,
+    0.9149949680730171
+   ],
+   "box_size_metres": [
+    0.06804196898934187,
+    0.06498490650329605,
+    0.04767877828305193
+   ],
+   "points": 394,
+   "valid_depth_fraction": 0.9978021978021978
+  },
+  {
+   "index": 26,
+   "t": 1198721.517646696,
+   "geometry_ms": 4.53415815718472,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1590711997639864,
+    0.2911169446052465,
+    0.9201554345307792
+   ],
+   "box_size_metres": [
+    0.0696387147416195,
+    0.06371092212236422,
+    0.03480731254509215
+   ],
+   "points": 399,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 27,
+   "t": 1198721.572565002,
+   "geometry_ms": 4.6145201195031404,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15857893347876567,
+    0.29086613927880467,
+    0.9112860838663114
+   ],
+   "box_size_metres": [
+    0.07447752290706922,
+    0.07146868245051514,
+    0.035483864400481104
+   ],
+   "points": 437,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 28,
+   "t": 1198721.626654652,
+   "geometry_ms": 4.402065882459283,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15828074798023334,
+    0.29055211471831716,
+    0.9137316349000093
+   ],
+   "box_size_metres": [
+    0.07010469572347927,
+    0.06472126422698785,
+    0.03856666733032721
+   ],
+   "points": 421,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 29,
+   "t": 1198721.681676198,
+   "geometry_ms": 4.495898960158229,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15907715891682825,
+    0.2900139541820038,
+    0.9149186489193939
+   ],
+   "box_size_metres": [
+    0.07185730682553443,
+    0.07196517028441346,
+    0.039613623410887214
+   ],
+   "points": 430,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 30,
+   "t": 1198721.736119771,
+   "geometry_ms": 4.876143066212535,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15813045613843985,
+    0.2895433302178527,
+    0.917204589404241
+   ],
+   "box_size_metres": [
+    0.07526082741701137,
+    0.06664933279763124,
+    0.03682795128134721
+   ],
+   "points": 396,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 31,
+   "t": 1198721.797588215,
+   "geometry_ms": 11.39809493906796,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1592318328278782,
+    0.2919694028992568,
+    0.915548717421768
+   ],
+   "box_size_metres": [
+    0.08242417855840613,
+    0.07188183969109332,
+    0.03613539899561152
+   ],
+   "points": 452,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 32,
+   "t": 1198721.844188269,
+   "geometry_ms": 4.600143060088158,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1588750320559726,
+    0.2900654969475898,
+    0.916629497767061
+   ],
+   "box_size_metres": [
+    0.06920918339561212,
+    0.06850895165242207,
+    0.03694148294774929
+   ],
+   "points": 421,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 33,
+   "t": 1198721.898203695,
+   "geometry_ms": 4.3702509719878435,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15946925525039835,
+    0.29275223646196014,
+    0.9160157389972242
+   ],
+   "box_size_metres": [
+    0.07918724254578942,
+    0.0732310536107679,
+    0.03664412932546146
+   ],
+   "points": 446,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 34,
+   "t": 1198721.951842794,
+   "geometry_ms": 4.482454853132367,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15915312879599325,
+    0.2909613730832393,
+    0.9169855171196686
+   ],
+   "box_size_metres": [
+    0.0706993900001478,
+    0.0671639923646986,
+    0.03719361410484766
+   ],
+   "points": 413,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 35,
+   "t": 1198722.005266227,
+   "geometry_ms": 4.423181992024183,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1586272820120766,
+    0.2895615283222426,
+    0.915564331696147
+   ],
+   "box_size_metres": [
+    0.07248729804783621,
+    0.06941391871727295,
+    0.03967497353879755
+   ],
+   "points": 420,
+   "valid_depth_fraction": 0.9978118161925602
+  },
+  {
+   "index": 36,
+   "t": 1198722.057960573,
+   "geometry_ms": 3.6703411024063826,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15846104283391693,
+    0.2903660857383116,
+    0.9169654772605424
+   ],
+   "box_size_metres": [
+    0.06848604030687724,
+    0.06442445528962107,
+    0.04424619657534552
+   ],
+   "points": 405,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 37,
+   "t": 1198722.120622613,
+   "geometry_ms": 5.1570970099419355,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15846104283391693,
+    0.2903660857383116,
+    0.9169654772605424
+   ],
+   "box_size_metres": [
+    0.06848604030687724,
+    0.06442445528962107,
+    0.04424619657534552
+   ],
+   "points": 405,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 38,
+   "t": 1198722.17390629,
+   "geometry_ms": 4.36161388643086,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15824927562644697,
+    0.2899298412257461,
+    0.9150024145417869
+   ],
+   "box_size_metres": [
+    0.07178563076338677,
+    0.06658157029583481,
+    0.039736801007099136
+   ],
+   "points": 422,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 39,
+   "t": 1198722.22721862,
+   "geometry_ms": 4.103332059457898,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15871414771446815,
+    0.2896113563560079,
+    0.9168610867140606
+   ],
+   "box_size_metres": [
+    0.07076775751375067,
+    0.0681953948048338,
+    0.03996515618782347
+   ],
+   "points": 403,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 40,
+   "t": 1198722.281567276,
+   "geometry_ms": 4.366877023130655,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15898313273757284,
+    0.2908304151027433,
+    0.9156382929894232
+   ],
+   "box_size_metres": [
+    0.07139274012988411,
+    0.06869562579719624,
+    0.04224329524549664
+   ],
+   "points": 434,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 41,
+   "t": 1198722.342405632,
+   "geometry_ms": 11.584290070459247,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15824767801515216,
+    0.2882553776882214,
+    0.9205894302056489
+   ],
+   "box_size_metres": [
+    0.06852559896668212,
+    0.06302270813460509,
+    0.035627658721605004
+   ],
+   "points": 358,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 42,
+   "t": 1198722.389319822,
+   "geometry_ms": 4.202882060781121,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15868403132906003,
+    0.2914751387671032,
+    0.9123031415243065
+   ],
+   "box_size_metres": [
+    0.08183107825831752,
+    0.07193403732540288,
+    0.036143982449873366
+   ],
+   "points": 452,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 43,
+   "t": 1198722.442901863,
+   "geometry_ms": 4.242243943735957,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15867319978064015,
+    0.2901929912822587,
+    0.9153381394488471
+   ],
+   "box_size_metres": [
+    0.06723274276600885,
+    0.06582968300768306,
+    0.046954368729169
+   ],
+   "points": 420,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 44,
+   "t": 1198722.496973218,
+   "geometry_ms": 4.171252949163318,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15929905706870742,
+    0.2925825613723772,
+    0.9145995967873525
+   ],
+   "box_size_metres": [
+    0.0779070487330797,
+    0.07356998956325962,
+    0.038642139963328555
+   ],
+   "points": 447,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 45,
+   "t": 1198722.550513347,
+   "geometry_ms": 4.260375164449215,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15915262492072338,
+    0.2919539837739462,
+    0.9144852380003092
+   ],
+   "box_size_metres": [
+    0.07159091523115665,
+    0.0713289151179421,
+    0.03716542642790588
+   ],
+   "points": 439,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 46,
+   "t": 1198722.604533496,
+   "geometry_ms": 4.176517948508263,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15845416383838443,
+    0.29115045936303235,
+    0.9111086911214165
+   ],
+   "box_size_metres": [
+    0.0795421878699991,
+    0.06941270796877004,
+    0.03475703180080676
+   ],
+   "points": 451,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 47,
+   "t": 1198722.657979355,
+   "geometry_ms": 4.154235124588013,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15866814550094324,
+    0.2897907063401416,
+    0.916398578138981
+   ],
+   "box_size_metres": [
+    0.07007544055211135,
+    0.06847546899370512,
+    0.03844555775801802
+   ],
+   "points": 409,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 48,
+   "t": 1198722.711383587,
+   "geometry_ms": 4.073294112458825,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15941382284488595,
+    0.29230298311041114,
+    0.9162303075978631
+   ],
+   "box_size_metres": [
+    0.08193276734061848,
+    0.06957640090846365,
+    0.027708541400181315
+   ],
+   "points": 456,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 49,
+   "t": 1198722.764983768,
+   "geometry_ms": 4.23183711245656,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1588906655592077,
+    0.2905133152709288,
+    0.9157835740201613
+   ],
+   "box_size_metres": [
+    0.06702207227091257,
+    0.06751506409613109,
+    0.04212463626780061
+   ],
+   "points": 425,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 50,
+   "t": 1198722.818499426,
+   "geometry_ms": 4.168344894424081,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15976639920952676,
+    0.29302621894869313,
+    0.9182644112356778
+   ],
+   "box_size_metres": [
+    0.07423468605135186,
+    0.07315751356445896,
+    0.031190913244014625
+   ],
+   "points": 435,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 51,
+   "t": 1198722.882323618,
+   "geometry_ms": 13.732584891840816,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15842655297414757,
+    0.28992074374799376,
+    0.9168593034332181
+   ],
+   "box_size_metres": [
+    0.07281038394181649,
+    0.07003616442174118,
+    0.04178284152925939
+   ],
+   "points": 405,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 52,
+   "t": 1198722.926556184,
+   "geometry_ms": 4.540100926533341,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15854368867495885,
+    0.289461695159284,
+    0.9152668718821727
+   ],
+   "box_size_metres": [
+    0.06812558815546588,
+    0.07169010715474387,
+    0.043117965991323864
+   ],
+   "points": 416,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 53,
+   "t": 1198722.981110809,
+   "geometry_ms": 4.891130141913891,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15874138120342704,
+    0.29045200488146616,
+    0.9155788674074061
+   ],
+   "box_size_metres": [
+    0.06925851157955451,
+    0.07063708278276559,
+    0.04307111866133072
+   ],
+   "points": 425,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 54,
+   "t": 1198723.034626245,
+   "geometry_ms": 4.9010999500751495,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15832799381696352,
+    0.2895860568721696,
+    0.9182005396278778
+   ],
+   "box_size_metres": [
+    0.07150162109921311,
+    0.06543539453061013,
+    0.0358393746769546
+   ],
+   "points": 404,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 55,
+   "t": 1198723.088369283,
+   "geometry_ms": 4.257092019543052,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15899740992126338,
+    0.2918297685434972,
+    0.9141796446692388
+   ],
+   "box_size_metres": [
+    0.0802591430826815,
+    0.07170994656130697,
+    0.03988120903608738
+   ],
+   "points": 451,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 56,
+   "t": 1198723.141735842,
+   "geometry_ms": 4.177585942670703,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1590777294822486,
+    0.2904883040721158,
+    0.9157855861158256
+   ],
+   "box_size_metres": [
+    0.06815034191747299,
+    0.07021094349494411,
+    0.04156799416627191
+   ],
+   "points": 415,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 57,
+   "t": 1198723.194891832,
+   "geometry_ms": 3.7850940134376287,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1586837622345285,
+    0.29142532708634317,
+    0.9122057952712067
+   ],
+   "box_size_metres": [
+    0.08237600090555759,
+    0.07191209363595583,
+    0.034561569431414765
+   ],
+   "points": 452,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 58,
+   "t": 1198723.255071488,
+   "geometry_ms": 4.524502903223038,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15876131432406423,
+    0.29140175158614356,
+    0.9122516986550084
+   ],
+   "box_size_metres": [
+    0.08232726388655404,
+    0.07197585208900392,
+    0.0345593870790359
+   ],
+   "points": 453,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 59,
+   "t": 1198723.308258113,
+   "geometry_ms": 4.2000520043075085,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589266253041697,
+    0.29135017532568713,
+    0.9130483956127377
+   ],
+   "box_size_metres": [
+    0.07784537791300018,
+    0.07013621006774139,
+    0.03424775648759411
+   ],
+   "points": 455,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 60,
+   "t": 1198723.362500237,
+   "geometry_ms": 4.322855966165662,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1584755122882895,
+    0.28923515909083997,
+    0.9166262806347101
+   ],
+   "box_size_metres": [
+    0.06916784633262626,
+    0.06822431576799899,
+    0.038781734650590774
+   ],
+   "points": 404,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 61,
+   "t": 1198723.422988494,
+   "geometry_ms": 11.200140928849578,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1590227653136414,
+    0.29197289655717573,
+    0.9133775719096152
+   ],
+   "box_size_metres": [
+    0.08125601537481454,
+    0.07229180144507619,
+    0.03261389679328807
+   ],
+   "points": 445,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 62,
+   "t": 1198723.469436933,
+   "geometry_ms": 4.176476038992405,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15853135972791374,
+    0.29091271878136277,
+    0.9146161576582922
+   ],
+   "box_size_metres": [
+    0.07163413746183496,
+    0.0655601789373195,
+    0.041200816666690704
+   ],
+   "points": 422,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 63,
+   "t": 1198723.522990043,
+   "geometry_ms": 4.247474018484354,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15806571206965372,
+    0.289124229971651,
+    0.9175419275361206
+   ],
+   "box_size_metres": [
+    0.07019247268131668,
+    0.061135838684538674,
+    0.03512975175090352
+   ],
+   "points": 382,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 64,
+   "t": 1198723.577079659,
+   "geometry_ms": 4.23368695192039,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15930748679818274,
+    0.28969102231323296,
+    0.9150260491010427
+   ],
+   "box_size_metres": [
+    0.06844977006214081,
+    0.07190501659087951,
+    0.03619917440602951
+   ],
+   "points": 423,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 65,
+   "t": 1198723.630909221,
+   "geometry_ms": 4.451753105968237,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.158526678011779,
+    0.28832242658941176,
+    0.9183496567767813
+   ],
+   "box_size_metres": [
+    0.07151882651078478,
+    0.06328435045433989,
+    0.03699667830046102
+   ],
+   "points": 389,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 66,
+   "t": 1198723.684867678,
+   "geometry_ms": 4.368325928226113,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15788760238016644,
+    0.288179449737072,
+    0.9170963972186049
+   ],
+   "box_size_metres": [
+    0.0733031999199896,
+    0.0629454420501466,
+    0.037032172663939544
+   ],
+   "points": 384,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 67,
+   "t": 1198723.73832456,
+   "geometry_ms": 4.3543369974941015,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15783886575793965,
+    0.28732435698521896,
+    0.9162500443610739
+   ],
+   "box_size_metres": [
+    0.07023498995811692,
+    0.062164179224433576,
+    0.042872696216300146
+   ],
+   "points": 376,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 68,
+   "t": 1198723.791726262,
+   "geometry_ms": 4.253751831129193,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15858311259691235,
+    0.2908997843409359,
+    0.91283066892292
+   ],
+   "box_size_metres": [
+    0.07439344614938848,
+    0.06967332662180702,
+    0.04373947163764101
+   ],
+   "points": 431,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 69,
+   "t": 1198723.845877907,
+   "geometry_ms": 4.209771053865552,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15793904496153982,
+    0.2885913066934831,
+    0.915242617083068
+   ],
+   "box_size_metres": [
+    0.07252321915446289,
+    0.0640686676906455,
+    0.03967059804456198
+   ],
+   "points": 404,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 70,
+   "t": 1198723.89959148,
+   "geometry_ms": 4.321127897128463,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15911912559666452,
+    0.29196430480559843,
+    0.9151069494026541
+   ],
+   "box_size_metres": [
+    0.07704376445010205,
+    0.07248968313017487,
+    0.035444949241763744
+   ],
+   "points": 449,
+   "valid_depth_fraction": 0.9978118161925602
+  },
+  {
+   "index": 71,
+   "t": 1198723.960709834,
+   "geometry_ms": 11.260009836405516,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15805909260729242,
+    0.2894038113997067,
+    0.9159061358059724
+   ],
+   "box_size_metres": [
+    0.07175469561379404,
+    0.0628304241640378,
+    0.03809382352143545
+   ],
+   "points": 394,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 72,
+   "t": 1198724.007257471,
+   "geometry_ms": 4.1484711691737175,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15859467707373,
+    0.2915028390046713,
+    0.9135901346668467
+   ],
+   "box_size_metres": [
+    0.08223549510402121,
+    0.07036018712871825,
+    0.03615192075928465
+   ],
+   "points": 444,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 73,
+   "t": 1198724.061462157,
+   "geometry_ms": 4.13258490152657,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589985135354494,
+    0.2883362654792635,
+    0.9171053070771067
+   ],
+   "box_size_metres": [
+    0.06910449775752217,
+    0.06153553243606553,
+    0.042642502407327275
+   ],
+   "points": 380,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 74,
+   "t": 1198724.115065119,
+   "geometry_ms": 4.231337923556566,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15933150783148003,
+    0.2923299805624182,
+    0.9170601780802211
+   ],
+   "box_size_metres": [
+    0.08019198255705501,
+    0.07168628673651578,
+    0.032072610592235415
+   ],
+   "points": 449,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 75,
+   "t": 1198724.168313627,
+   "geometry_ms": 4.081384977325797,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15873778243214237,
+    0.29062318808794574,
+    0.9132599043735495
+   ],
+   "box_size_metres": [
+    0.07067052205444511,
+    0.0744974987004881,
+    0.04096891084975218
+   ],
+   "points": 431,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 76,
+   "t": 1198724.221904308,
+   "geometry_ms": 4.147002939134836,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15862481189625605,
+    0.2914743863629855,
+    0.9146382918555616
+   ],
+   "box_size_metres": [
+    0.07264525052007464,
+    0.07021999903801227,
+    0.045679254304024024
+   ],
+   "points": 434,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 77,
+   "t": 1198724.27547909,
+   "geometry_ms": 4.2188160587102175,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1580859600425073,
+    0.287499977108139,
+    0.915395929298548
+   ],
+   "box_size_metres": [
+    0.06964858033155333,
+    0.06380408351255833,
+    0.038093738276527046
+   ],
+   "points": 389,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 78,
+   "t": 1198724.329589931,
+   "geometry_ms": 4.221236798912287,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15840545930059888,
+    0.2899483667105363,
+    0.9170983252126989
+   ],
+   "box_size_metres": [
+    0.0722558449492648,
+    0.06555885675070348,
+    0.040019338261621705
+   ],
+   "points": 407,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 79,
+   "t": 1198724.383283938,
+   "geometry_ms": 4.434602800756693,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15825718949861034,
+    0.28848435849519777,
+    0.9190136686332869
+   ],
+   "box_size_metres": [
+    0.07043502791730008,
+    0.05839803061258414,
+    0.03445800028460417
+   ],
+   "points": 367,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 80,
+   "t": 1198724.437272465,
+   "geometry_ms": 4.172455985099077,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15840804755992596,
+    0.28941590988727484,
+    0.9167979960246464
+   ],
+   "box_size_metres": [
+    0.06882932784543318,
+    0.05990996402629456,
+    0.04073986424568775
+   ],
+   "points": 391,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 81,
+   "t": 1198724.498177071,
+   "geometry_ms": 11.525544105097651,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15892090499401093,
+    0.29135975562609157,
+    0.9129077358560248
+   ],
+   "box_size_metres": [
+    0.081513897482081,
+    0.06951131760488823,
+    0.03635444781040182
+   ],
+   "points": 455,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 82,
+   "t": 1198724.545065511,
+   "geometry_ms": 4.272029036656022,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1588645083785622,
+    0.2903128425233172,
+    0.9142820361948691
+   ],
+   "box_size_metres": [
+    0.06900588302415937,
+    0.06848122754927358,
+    0.04958891356136219
+   ],
+   "points": 422,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 83,
+   "t": 1198724.598568581,
+   "geometry_ms": 4.399013938382268,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15916567490804914,
+    0.2924097059690446,
+    0.9148031762515672
+   ],
+   "box_size_metres": [
+    0.07849234837259811,
+    0.07174004767418193,
+    0.03578832982108797
+   ],
+   "points": 447,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 84,
+   "t": 1198724.653029828,
+   "geometry_ms": 4.394888179376721,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1583814203885256,
+    0.2898981352062786,
+    0.9167034741418034
+   ],
+   "box_size_metres": [
+    0.07156804290299557,
+    0.07270055442593217,
+    0.04480086728531255
+   ],
+   "points": 408,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 85,
+   "t": 1198724.706621265,
+   "geometry_ms": 4.553437000140548,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1596906753005208,
+    0.2933097906612061,
+    0.9169212152829042
+   ],
+   "box_size_metres": [
+    0.07857757747361512,
+    0.07065521711134046,
+    0.03168911160481095
+   ],
+   "points": 444,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 86,
+   "t": 1198724.761419958,
+   "geometry_ms": 5.612259963527322,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1588827885023438,
+    0.290292196270853,
+    0.9177599456345681
+   ],
+   "box_size_metres": [
+    0.06839891147744095,
+    0.06770540184249789,
+    0.0451768372308469
+   ],
+   "points": 404,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 87,
+   "t": 1198724.815365966,
+   "geometry_ms": 5.479401908814907,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1590470330723162,
+    0.29211579063641174,
+    0.9137143286477242
+   ],
+   "box_size_metres": [
+    0.08372238047620545,
+    0.07224228625469314,
+    0.03535004301450708
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 88,
+   "t": 1198724.868872866,
+   "geometry_ms": 5.4450370371341705,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1599600846264638,
+    0.293784777188247,
+    0.9183311105585422
+   ],
+   "box_size_metres": [
+    0.07776885661267546,
+    0.06964062335298954,
+    0.029024427842177798
+   ],
+   "points": 441,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 89,
+   "t": 1198724.922463494,
+   "geometry_ms": 5.407182965427637,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15940609340443204,
+    0.2927242913053709,
+    0.915298251827736
+   ],
+   "box_size_metres": [
+    0.07377258604249581,
+    0.07307957875783874,
+    0.04276887870958587
+   ],
+   "points": 446,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 90,
+   "t": 1198724.975167157,
+   "geometry_ms": 4.606914008036256,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15907716684277282,
+    0.2923682917393911,
+    0.9140022886173608
+   ],
+   "box_size_metres": [
+    0.07514543779396733,
+    0.07306821157501886,
+    0.034743145776592335
+   ],
+   "points": 446,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 91,
+   "t": 1198725.036779115,
+   "geometry_ms": 11.925050988793373,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589297543812011,
+    0.2912376990674862,
+    0.9141406680324248
+   ],
+   "box_size_metres": [
+    0.07754744128151342,
+    0.07199750908221575,
+    0.041061347590284965
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 92,
+   "t": 1198725.082816471,
+   "geometry_ms": 4.290536977350712,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15882563841553915,
+    0.2916052589374306,
+    0.9130442911280995
+   ],
+   "box_size_metres": [
+    0.07854922301783382,
+    0.07085303818830843,
+    0.032869409513565505
+   ],
+   "points": 452,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 93,
+   "t": 1198725.137158309,
+   "geometry_ms": 4.393244860693812,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15939203900449417,
+    0.2914170338827021,
+    0.9198706322557786
+   ],
+   "box_size_metres": [
+    0.07446793557867723,
+    0.06961239627413227,
+    0.03601876086189058
+   ],
+   "points": 425,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 94,
+   "t": 1198725.189938559,
+   "geometry_ms": 3.7035730201750994,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15898631097349739,
+    0.29131682676130105,
+    0.9141071876510978
+   ],
+   "box_size_metres": [
+    0.07992437818784684,
+    0.06934491377393757,
+    0.032909158429501914
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 95,
+   "t": 1198725.255748882,
+   "geometry_ms": 4.318108083680272,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15898631097349739,
+    0.29131682676130105,
+    0.9141071876510978
+   ],
+   "box_size_metres": [
+    0.07992437818784684,
+    0.06934491377393757,
+    0.032909158429501914
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 96,
+   "t": 1198725.309453717,
+   "geometry_ms": 4.544066032394767,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1595287626713849,
+    0.2919983403066571,
+    0.9171056620190653
+   ],
+   "box_size_metres": [
+    0.07895221141584795,
+    0.07241150733336951,
+    0.033262287670959456
+   ],
+   "points": 445,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 97,
+   "t": 1198725.363087647,
+   "geometry_ms": 4.1880791541188955,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589798893562347,
+    0.29197743882512833,
+    0.9141637207146718
+   ],
+   "box_size_metres": [
+    0.08165149081610824,
+    0.07198801918062246,
+    0.034522636460564554
+   ],
+   "points": 446,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 98,
+   "t": 1198725.416773995,
+   "geometry_ms": 4.18534898199141,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15952309512144683,
+    0.292336082682178,
+    0.9163532457078003
+   ],
+   "box_size_metres": [
+    0.08188312651395412,
+    0.06949551848508051,
+    0.03158893521995619
+   ],
+   "points": 453,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 99,
+   "t": 1198725.47014232,
+   "geometry_ms": 4.231862025335431,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15950002195415916,
+    0.2920313816149156,
+    0.9153978459127656
+   ],
+   "box_size_metres": [
+    0.08387722812725809,
+    0.07082094521619864,
+    0.03277325184245772
+   ],
+   "points": 455,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 100,
+   "t": 1198725.524385017,
+   "geometry_ms": 4.203719086945057,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15888740239055477,
+    0.2904542112542737,
+    0.9150968188514358
+   ],
+   "box_size_metres": [
+    0.07511359439760361,
+    0.07161780989076413,
+    0.035467174203122655
+   ],
+   "points": 434,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 101,
+   "t": 1198725.585228415,
+   "geometry_ms": 11.470841011032462,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15897186479847367,
+    0.29165394699901614,
+    0.9173073839703831
+   ],
+   "box_size_metres": [
+    0.07753275202980926,
+    0.06929817550601769,
+    0.03690862077486663
+   ],
+   "points": 436,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 102,
+   "t": 1198725.631507322,
+   "geometry_ms": 4.357305821031332,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15891088090500752,
+    0.29051853429676516,
+    0.9158884068849251
+   ],
+   "box_size_metres": [
+    0.07433955782632322,
+    0.07196456052440957,
+    0.036332834209360385
+   ],
+   "points": 421,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 103,
+   "t": 1198725.685085201,
+   "geometry_ms": 4.240997135639191,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15895076181962592,
+    0.29189918667672743,
+    0.913840399084493
+   ],
+   "box_size_metres": [
+    0.08124831295410814,
+    0.07132183702809575,
+    0.03416829227938186
+   ],
+   "points": 451,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 104,
+   "t": 1198725.740062237,
+   "geometry_ms": 4.9052550457417965,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1593688617261608,
+    0.2924652392274878,
+    0.9150786950347128
+   ],
+   "box_size_metres": [
+    0.07823348978979419,
+    0.07280519891155836,
+    0.03315511997342688
+   ],
+   "points": 445,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 105,
+   "t": 1198725.792762978,
+   "geometry_ms": 4.192159976810217,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15919656053071132,
+    0.28916591680263315,
+    0.9198644932578591
+   ],
+   "box_size_metres": [
+    0.06942109533994306,
+    0.06219086190026632,
+    0.04800072901673255
+   ],
+   "points": 391,
+   "valid_depth_fraction": 0.9978118161925602
+  },
+  {
+   "index": 106,
+   "t": 1198725.846935419,
+   "geometry_ms": 4.219179041683674,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15848101800580106,
+    0.2899538029869683,
+    0.9166787003727553
+   ],
+   "box_size_metres": [
+    0.07403070192046277,
+    0.06909968145511206,
+    0.040115783419497134
+   ],
+   "points": 417,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 107,
+   "t": 1198725.900573386,
+   "geometry_ms": 4.223705967888236,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1588584966957569,
+    0.2917369978635439,
+    0.9123281674193484
+   ],
+   "box_size_metres": [
+    0.07959552541239534,
+    0.06919006428011046,
+    0.03521244144050763
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 108,
+   "t": 1198725.954021666,
+   "geometry_ms": 4.158376017585397,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15887857402559966,
+    0.2897407464937275,
+    0.9195223555477272
+   ],
+   "box_size_metres": [
+    0.07019807461310174,
+    0.06282277156311401,
+    0.03631432111274501
+   ],
+   "points": 381,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 109,
+   "t": 1198726.008925352,
+   "geometry_ms": 4.135632887482643,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15828399453312159,
+    0.28856717720627784,
+    0.9160000462830067
+   ],
+   "box_size_metres": [
+    0.06946237207398967,
+    0.06662468965985927,
+    0.041889663443973914
+   ],
+   "points": 400,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 110,
+   "t": 1198726.063128694,
+   "geometry_ms": 4.188812803477049,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15922947704792023,
+    0.29170934405591753,
+    0.9139622660477956
+   ],
+   "box_size_metres": [
+    0.07665401931429536,
+    0.07310569217211103,
+    0.041224201660181224
+   ],
+   "points": 450,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 111,
+   "t": 1198726.129407801,
+   "geometry_ms": 16.368974931538105,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1586897358570469,
+    0.2910532524052276,
+    0.9116484454777687
+   ],
+   "box_size_metres": [
+    0.0717402413315942,
+    0.07251875937123403,
+    0.03633815612976702
+   ],
+   "points": 438,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 112,
+   "t": 1198726.172090871,
+   "geometry_ms": 4.639037884771824,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1573176267670422,
+    0.2872632148304606,
+    0.9174742994269705
+   ],
+   "box_size_metres": [
+    0.0755941095753745,
+    0.06342083799390624,
+    0.033317532648871453
+   ],
+   "points": 369,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 113,
+   "t": 1198726.226557147,
+   "geometry_ms": 4.097155062481761,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15916398795230136,
+    0.2896032432715098,
+    0.9198915171376802
+   ],
+   "box_size_metres": [
+    0.06885790101838776,
+    0.06265635204024028,
+    0.035970530532587905
+   ],
+   "points": 387,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 114,
+   "t": 1198726.280806606,
+   "geometry_ms": 4.10997518338263,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15886554267927835,
+    0.29104938410680764,
+    0.9144670139141127
+   ],
+   "box_size_metres": [
+    0.07557863218076073,
+    0.07223820238745937,
+    0.03817485103164674
+   ],
+   "points": 439,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 115,
+   "t": 1198726.335666701,
+   "geometry_ms": 4.683659877628088,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15832996298740437,
+    0.2888627721891775,
+    0.9195429029402795
+   ],
+   "box_size_metres": [
+    0.07414762141691292,
+    0.06606922866769248,
+    0.034021520409775574
+   ],
+   "points": 385,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 116,
+   "t": 1198726.389739166,
+   "geometry_ms": 4.307541996240616,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15922225558677236,
+    0.2923654442032178,
+    0.9146419352776295
+   ],
+   "box_size_metres": [
+    0.08063734987102843,
+    0.07312186331307435,
+    0.03574648556100418
+   ],
+   "points": 444,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 117,
+   "t": 1198726.44511024,
+   "geometry_ms": 5.407573888078332,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15900757034043117,
+    0.29189443521733793,
+    0.9147879893758467
+   ],
+   "box_size_metres": [
+    0.07736829957937252,
+    0.07276437952187484,
+    0.037660895682029225
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 118,
+   "t": 1198726.500308204,
+   "geometry_ms": 5.679741036146879,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15857189392318596,
+    0.2868959381773665,
+    0.916348691727664
+   ],
+   "box_size_metres": [
+    0.07001285525789122,
+    0.06091535409002541,
+    0.040248250165232084
+   ],
+   "points": 370,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 119,
+   "t": 1198726.553163047,
+   "geometry_ms": 4.2804761324077845,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15871236368489625,
+    0.28874808594809104,
+    0.9160703937312467
+   ],
+   "box_size_metres": [
+    0.06943620162926101,
+    0.06075570926059463,
+    0.04527892252377938
+   ],
+   "points": 398,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 120,
+   "t": 1198726.60824525,
+   "geometry_ms": 4.136892966926098,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1579953188814829,
+    0.2882396509953997,
+    0.9176640876634853
+   ],
+   "box_size_metres": [
+    0.07169869717296157,
+    0.06201036789174139,
+    0.036520233813894486
+   ],
+   "points": 381,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 121,
+   "t": 1198726.667003225,
+   "geometry_ms": 8.875683881342411,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15863395236432554,
+    0.29074372597038745,
+    0.9199650467932224
+   ],
+   "box_size_metres": [
+    0.07123093187977733,
+    0.06836552381588634,
+    0.04265228734809685
+   ],
+   "points": 400,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 122,
+   "t": 1198726.724636363,
+   "geometry_ms": 5.007992964237928,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1585463003108376,
+    0.2907695379621702,
+    0.9199348839004535
+   ],
+   "box_size_metres": [
+    0.07039986448394703,
+    0.06836808126792024,
+    0.04265648188425089
+   ],
+   "points": 399,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 123,
+   "t": 1198726.778877931,
+   "geometry_ms": 5.461534950882196,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15978327136955514,
+    0.29221027352688855,
+    0.9162649447817939
+   ],
+   "box_size_metres": [
+    0.07889822285690484,
+    0.06994040454582251,
+    0.03835303841119874
+   ],
+   "points": 453,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 124,
+   "t": 1198726.831182565,
+   "geometry_ms": 3.6720719654113054,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1584902039816227,
+    0.28989647204065555,
+    0.9183892080642907
+   ],
+   "box_size_metres": [
+    0.07109275237938632,
+    0.06967199447826072,
+    0.03808707593271893
+   ],
+   "points": 406,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 125,
+   "t": 1198726.890833714,
+   "geometry_ms": 5.2028370555490255,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15839954872190218,
+    0.28990240303086645,
+    0.9183728849446332
+   ],
+   "box_size_metres": [
+    0.07128708690530516,
+    0.06972324789495618,
+    0.03808011380163566
+   ],
+   "points": 405,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 126,
+   "t": 1198726.945716513,
+   "geometry_ms": 5.867970874533057,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15922388304673618,
+    0.28962465646255076,
+    0.9172662118477608
+   ],
+   "box_size_metres": [
+    0.06943452682376716,
+    0.06515143784885875,
+    0.044313994751850036
+   ],
+   "points": 402,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 127,
+   "t": 1198726.998188934,
+   "geometry_ms": 4.700375022366643,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15915276251380284,
+    0.2896660263104332,
+    0.917187075067934
+   ],
+   "box_size_metres": [
+    0.06935715598198514,
+    0.06491934507578487,
+    0.04454323053863537
+   ],
+   "points": 401,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 128,
+   "t": 1198727.051163523,
+   "geometry_ms": 4.039083840325475,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15884963150780934,
+    0.2899604317230674,
+    0.9168582177506044
+   ],
+   "box_size_metres": [
+    0.06969980684407856,
+    0.0702222910332781,
+    0.038568091430784025
+   ],
+   "points": 416,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 129,
+   "t": 1198727.104706688,
+   "geometry_ms": 4.05918899923563,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1587127447128296,
+    0.2893370941582352,
+    0.916449538535542
+   ],
+   "box_size_metres": [
+    0.06935237934349486,
+    0.06845249794360088,
+    0.03897808256559922
+   ],
+   "points": 396,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 130,
+   "t": 1198727.160439869,
+   "geometry_ms": 4.344650777056813,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1587127447128296,
+    0.2893370941582352,
+    0.916449538535542
+   ],
+   "box_size_metres": [
+    0.06935237934349486,
+    0.06845249794360088,
+    0.03897808256559922
+   ],
+   "points": 396,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 131,
+   "t": 1198727.221676885,
+   "geometry_ms": 11.031041853129864,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15884325964215362,
+    0.2896700893655235,
+    0.9150296736646581
+   ],
+   "box_size_metres": [
+    0.07053615150170592,
+    0.06430683109730106,
+    0.04553632935418915
+   ],
+   "points": 405,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 132,
+   "t": 1198727.268788696,
+   "geometry_ms": 4.788932157680392,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589100260731824,
+    0.2914407772071865,
+    0.9134060056931382
+   ],
+   "box_size_metres": [
+    0.07941009191373813,
+    0.0736644056214523,
+    0.03443426150099215
+   ],
+   "points": 436,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 133,
+   "t": 1198727.322941216,
+   "geometry_ms": 4.740455886349082,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15856308350015405,
+    0.29085070938909136,
+    0.9146821783756158
+   ],
+   "box_size_metres": [
+    0.07392594291229758,
+    0.07041383940780155,
+    0.040189163284213014
+   ],
+   "points": 431,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 134,
+   "t": 1198727.376141651,
+   "geometry_ms": 4.3650970328599215,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1591978823258118,
+    0.29162138266996906,
+    0.916313680193641
+   ],
+   "box_size_metres": [
+    0.07656545648179439,
+    0.07221993318043346,
+    0.03659142537606229
+   ],
+   "points": 440,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 135,
+   "t": 1198727.430572513,
+   "geometry_ms": 4.59312810562551,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15879771036441337,
+    0.29030632133215245,
+    0.9123357239183686
+   ],
+   "box_size_metres": [
+    0.06905209381588924,
+    0.06808750070887316,
+    0.04115778725004649
+   ],
+   "points": 426,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 136,
+   "t": 1198727.483845794,
+   "geometry_ms": 4.479801980778575,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15923627439354146,
+    0.29239506287766354,
+    0.9148549545290214
+   ],
+   "box_size_metres": [
+    0.0776890976718412,
+    0.07231958175141417,
+    0.034560538358735335
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 137,
+   "t": 1198727.53808073,
+   "geometry_ms": 4.544239956885576,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15895245498732516,
+    0.2889199096308017,
+    0.9165138276597312
+   ],
+   "box_size_metres": [
+    0.06872114639292848,
+    0.0691908268922492,
+    0.038798907084306736
+   ],
+   "points": 399,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 138,
+   "t": 1198727.590927139,
+   "geometry_ms": 4.090082831680775,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15856188249708425,
+    0.289433383354635,
+    0.9158207521294103
+   ],
+   "box_size_metres": [
+    0.06920582743483802,
+    0.06399482898053477,
+    0.041677204884635236
+   ],
+   "points": 396,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 139,
+   "t": 1198727.645201725,
+   "geometry_ms": 4.425077931955457,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1586037066638769,
+    0.29014595714046726,
+    0.9175754210457729
+   ],
+   "box_size_metres": [
+    0.06983374832154816,
+    0.06173491759809057,
+    0.03207521590131141
+   ],
+   "points": 398,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 140,
+   "t": 1198727.698853012,
+   "geometry_ms": 4.550696117803454,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15930342362887823,
+    0.2901905389567513,
+    0.9171642254834151
+   ],
+   "box_size_metres": [
+    0.06860652857642356,
+    0.06357525643031742,
+    0.03763857141811221
+   ],
+   "points": 402,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 141,
+   "t": 1198727.763245897,
+   "geometry_ms": 15.374815091490746,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15990311634682475,
+    0.2914058953523636,
+    0.9191357581388383
+   ],
+   "box_size_metres": [
+    0.07174783994189117,
+    0.07273414873917777,
+    0.034086092985370596
+   ],
+   "points": 420,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 142,
+   "t": 1198727.805661054,
+   "geometry_ms": 4.360676044598222,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15890105327530085,
+    0.29055682685173734,
+    0.9173404198017479
+   ],
+   "box_size_metres": [
+    0.07311734858606195,
+    0.07054133352447806,
+    0.04030213700064396
+   ],
+   "points": 426,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 143,
+   "t": 1198727.858550211,
+   "geometry_ms": 3.901456017047167,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1590634767459408,
+    0.29207329628946577,
+    0.9150365740741224
+   ],
+   "box_size_metres": [
+    0.07598148797172788,
+    0.07049921790004496,
+    0.03761884101574173
+   ],
+   "points": 438,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 144,
+   "t": 1198727.913014951,
+   "geometry_ms": 4.146835068240762,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589683216647534,
+    0.2892060512052872,
+    0.9181811861305615
+   ],
+   "box_size_metres": [
+    0.07008291749445322,
+    0.06692952594897575,
+    0.036155577110424726
+   ],
+   "points": 403,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 145,
+   "t": 1198727.966951653,
+   "geometry_ms": 4.579058848321438,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1583731562271714,
+    0.2902036936581135,
+    0.919522545337677
+   ],
+   "box_size_metres": [
+    0.07356584258205048,
+    0.06426029710821196,
+    0.0371689791984907
+   ],
+   "points": 400,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 146,
+   "t": 1198728.021687972,
+   "geometry_ms": 5.165834911167622,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15926042134495086,
+    0.29207591113706705,
+    0.9167283546162522
+   ],
+   "box_size_metres": [
+    0.0773109104310439,
+    0.07071979811863999,
+    0.037302144948298005
+   ],
+   "points": 438,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 147,
+   "t": 1198728.074595873,
+   "geometry_ms": 4.789027152583003,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1592907099922498,
+    0.29213050491280024,
+    0.9164733775456746
+   ],
+   "box_size_metres": [
+    0.08042132725907038,
+    0.07109909968678946,
+    0.03865878500828926
+   ],
+   "points": 450,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 148,
+   "t": 1198728.12888179,
+   "geometry_ms": 4.56900498829782,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15922020947325255,
+    0.2921646342441407,
+    0.9164834145431773
+   ],
+   "box_size_metres": [
+    0.08035322678967621,
+    0.07149381275205119,
+    0.038749763390773975
+   ],
+   "points": 451,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 149,
+   "t": 1198728.181673816,
+   "geometry_ms": 4.020612919703126,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1593692796304822,
+    0.2918535786946969,
+    0.9149397768612418
+   ],
+   "box_size_metres": [
+    0.08045741892885586,
+    0.07252754932899712,
+    0.03668295449273996
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 150,
+   "t": 1198728.234905778,
+   "geometry_ms": 3.886118996888399,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15858817364132669,
+    0.2899533912942216,
+    0.9184963578674072
+   ],
+   "box_size_metres": [
+    0.072851493917718,
+    0.06632507911338972,
+    0.038870069223539264
+   ],
+   "points": 407,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 151,
+   "t": 1198728.296633904,
+   "geometry_ms": 11.424325872212648,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15950300308182377,
+    0.29224429184382184,
+    0.9160198671702247
+   ],
+   "box_size_metres": [
+    0.08234867157197026,
+    0.06938920735557574,
+    0.032109295618624856
+   ],
+   "points": 454,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 152,
+   "t": 1198728.34242445,
+   "geometry_ms": 3.891538130119443,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15954088587357107,
+    0.2912048822627543,
+    0.9155522475663028
+   ],
+   "box_size_metres": [
+    0.06893764453955828,
+    0.07084814836492616,
+    0.04140175760212737
+   ],
+   "points": 431,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 153,
+   "t": 1198728.396921643,
+   "geometry_ms": 4.239816917106509,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15859344328250688,
+    0.2890125447619485,
+    0.9187338929767757
+   ],
+   "box_size_metres": [
+    0.07035645331721688,
+    0.06365431138982908,
+    0.03426305204024947
+   ],
+   "points": 387,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 154,
+   "t": 1198728.452342637,
+   "geometry_ms": 5.891752894967794,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15898231164962415,
+    0.2910030220981932,
+    0.9178491898986835
+   ],
+   "box_size_metres": [
+    0.06930541501100108,
+    0.06496482858079342,
+    0.03923175300883769
+   ],
+   "points": 411,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 155,
+   "t": 1198728.505297176,
+   "geometry_ms": 4.328122129663825,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15923957091111404,
+    0.2917580589488312,
+    0.9146286153531337
+   ],
+   "box_size_metres": [
+    0.08235202139072181,
+    0.07022817680749147,
+    0.031146780123360775
+   ],
+   "points": 455,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 156,
+   "t": 1198728.558920149,
+   "geometry_ms": 4.233997082337737,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15942957231663338,
+    0.2925247054220894,
+    0.91595165658107
+   ],
+   "box_size_metres": [
+    0.08064779076603192,
+    0.07192331620248231,
+    0.03424607847430551
+   ],
+   "points": 434,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 157,
+   "t": 1198728.613362491,
+   "geometry_ms": 4.209073958918452,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15808940641950853,
+    0.2894979452732766,
+    0.9157970760128286
+   ],
+   "box_size_metres": [
+    0.07425814021766672,
+    0.06376946986282131,
+    0.038426442046017015
+   ],
+   "points": 404,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 158,
+   "t": 1198728.666685994,
+   "geometry_ms": 4.168394953012466,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1591832202834052,
+    0.2921933058548618,
+    0.9142072513565287
+   ],
+   "box_size_metres": [
+    0.07149401308210829,
+    0.07018779353489875,
+    0.034383539270707225
+   ],
+   "points": 444,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 159,
+   "t": 1198728.720555548,
+   "geometry_ms": 4.550926852971315,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1586068522275948,
+    0.2886588601077475,
+    0.914917118956403
+   ],
+   "box_size_metres": [
+    0.06839229673189322,
+    0.06843274916350728,
+    0.04315008151291637
+   ],
+   "points": 410,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 160,
+   "t": 1198728.774316615,
+   "geometry_ms": 4.164774902164936,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15859256765848614,
+    0.28902582306936,
+    0.9180285404074378
+   ],
+   "box_size_metres": [
+    0.06897310027311637,
+    0.06126069653795556,
+    0.04298038723897114
+   ],
+   "points": 386,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 161,
+   "t": 1198728.834317568,
+   "geometry_ms": 10.788636980578303,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15901182632791133,
+    0.29037804682355867,
+    0.9203042853205579
+   ],
+   "box_size_metres": [
+    0.07098828708472069,
+    0.06871508271174502,
+    0.03453688803181476
+   ],
+   "points": 401,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 162,
+   "t": 1198728.88182868,
+   "geometry_ms": 4.190793028101325,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1593111550145679,
+    0.29252925939030117,
+    0.9159733789496952
+   ],
+   "box_size_metres": [
+    0.08149039934524815,
+    0.06942044317220472,
+    0.03064437951065202
+   ],
+   "points": 450,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 163,
+   "t": 1198728.938378914,
+   "geometry_ms": 7.375589106231928,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1589905340812708,
+    0.2886619563165464,
+    0.9194105714559555
+   ],
+   "box_size_metres": [
+    0.06799611145564213,
+    0.06736630246399256,
+    0.03564762358487905
+   ],
+   "points": 380,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 164,
+   "t": 1198728.989540434,
+   "geometry_ms": 4.227956058457494,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15884421897381873,
+    0.2916759458467134,
+    0.9135916540954286
+   ],
+   "box_size_metres": [
+    0.0782893485561948,
+    0.0706804731325778,
+    0.03868358727661068
+   ],
+   "points": 453,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 165,
+   "t": 1198729.043158103,
+   "geometry_ms": 4.526397911831737,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15839184022375516,
+    0.28886938026669073,
+    0.9185510644195031
+   ],
+   "box_size_metres": [
+    0.06997168442545143,
+    0.0635853061964791,
+    0.034816106792994975
+   ],
+   "points": 392,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 166,
+   "t": 1198729.099664461,
+   "geometry_ms": 4.325577057898045,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15865993617296825,
+    0.2888734693290623,
+    0.918590374878648
+   ],
+   "box_size_metres": [
+    0.06931763614034361,
+    0.06315417540597959,
+    0.034993318067668984
+   ],
+   "points": 393,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 167,
+   "t": 1198729.155109351,
+   "geometry_ms": 4.3198298662900925,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15910963009338122,
+    0.2918236768460489,
+    0.9153198648143459
+   ],
+   "box_size_metres": [
+    0.07583184658340342,
+    0.07183709904356991,
+    0.04090104446061187
+   ],
+   "points": 444,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 168,
+   "t": 1198729.209586975,
+   "geometry_ms": 4.227355821058154,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15820296474087697,
+    0.28978141468877977,
+    0.9164856210924112
+   ],
+   "box_size_metres": [
+    0.07201460726203945,
+    0.06462976558020042,
+    0.04474377122238205
+   ],
+   "points": 416,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 169,
+   "t": 1198729.262847551,
+   "geometry_ms": 4.147155908867717,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15869070552954717,
+    0.2915080240262406,
+    0.9121719165039914
+   ],
+   "box_size_metres": [
+    0.07857879189734521,
+    0.07183931555254242,
+    0.040480776140743024
+   ],
+   "points": 448,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 170,
+   "t": 1198729.316765089,
+   "geometry_ms": 4.428163170814514,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1590719042938921,
+    0.29069257230234785,
+    0.9136682049843228
+   ],
+   "box_size_metres": [
+    0.0734021508805872,
+    0.07210876456052717,
+    0.03575530921841272
+   ],
+   "points": 446,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 171,
+   "t": 1198729.377221239,
+   "geometry_ms": 10.99781901575625,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1592749340080582,
+    0.2918263210923271,
+    0.9148562377796764
+   ],
+   "box_size_metres": [
+    0.08170545115463695,
+    0.0702233782566263,
+    0.03295307887107887
+   ],
+   "points": 452,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 172,
+   "t": 1198729.423711738,
+   "geometry_ms": 4.009966971352696,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15890376923255745,
+    0.29047352566519913,
+    0.9149791638425221
+   ],
+   "box_size_metres": [
+    0.07778215117625992,
+    0.07180117546276008,
+    0.03803284474024375
+   ],
+   "points": 431,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 173,
+   "t": 1198729.477859728,
+   "geometry_ms": 4.114286042749882,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15899711988262227,
+    0.2905016980461172,
+    0.9130135590697194
+   ],
+   "box_size_metres": [
+    0.0780812944907705,
+    0.07288115827772737,
+    0.04181694551148119
+   ],
+   "points": 444,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 174,
+   "t": 1198729.531210991,
+   "geometry_ms": 4.0068370290100574,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15925720592339834,
+    0.291991083489524,
+    0.9162044890721639
+   ],
+   "box_size_metres": [
+    0.07892169877885745,
+    0.07066162098242948,
+    0.0364369599739551
+   ],
+   "points": 450,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 175,
+   "t": 1198729.586437781,
+   "geometry_ms": 4.39845398068428,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1595135533638548,
+    0.29132170861132406,
+    0.9187655962255012
+   ],
+   "box_size_metres": [
+    0.06901619582629899,
+    0.06982540559224021,
+    0.04174269242057925
+   ],
+   "points": 418,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 176,
+   "t": 1198729.642046135,
+   "geometry_ms": 4.1148599702864885,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15874384663405672,
+    0.2908784613936348,
+    0.9124823444712479
+   ],
+   "box_size_metres": [
+    0.07952996587635881,
+    0.07136533870718864,
+    0.035345489332919776
+   ],
+   "points": 452,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 177,
+   "t": 1198729.697593267,
+   "geometry_ms": 4.182810895144939,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15819364652821893,
+    0.28752264568680214,
+    0.9174658348685817
+   ],
+   "box_size_metres": [
+    0.07052971731697658,
+    0.06250629273147705,
+    0.03888126256016603
+   ],
+   "points": 380,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 178,
+   "t": 1198729.753403024,
+   "geometry_ms": 4.510543076321483,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15929842538653163,
+    0.29169644565757263,
+    0.9153647231399467
+   ],
+   "box_size_metres": [
+    0.07809336668499968,
+    0.06918466487067945,
+    0.038655250536362734
+   ],
+   "points": 436,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 179,
+   "t": 1198729.809181291,
+   "geometry_ms": 4.274684004485607,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15878163413399488,
+    0.28948436025066754,
+    0.9149154678209505
+   ],
+   "box_size_metres": [
+    0.06922279927957606,
+    0.062276417387714327,
+    0.0442909943135117
+   ],
+   "points": 402,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 180,
+   "t": 1198729.864351761,
+   "geometry_ms": 4.068828886374831,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1591035930193178,
+    0.2916054185394827,
+    0.9161963918709863
+   ],
+   "box_size_metres": [
+    0.07712450062607391,
+    0.0727885182197211,
+    0.03342055621528397
+   ],
+   "points": 438,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 181,
+   "t": 1198729.926794175,
+   "geometry_ms": 11.128593003377318,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.15861616004489493,
+    0.2894631681164204,
+    0.9169131964075359
+   ],
+   "box_size_metres": [
+    0.07140841282404672,
+    0.0688339744699325,
+    0.040021493764263186
+   ],
+   "points": 403,
+   "valid_depth_fraction": 1.0
+  },
+  {
+   "index": 182,
+   "t": 1198729.975528755,
+   "geometry_ms": 3.8877211045473814,
+   "capture_to_geometry_ms": null,
+   "rejection": null,
+   "centroid_metres": [
+    -0.1594169033942107,
+    0.29214076997165384,
+    0.9152472834976567
+   ],
+   "box_size_metres": [
+    0.07975415704930429,
+    0.06962434090064756,
+    0.034961533097224946
+   ],
+   "points": 453,
+   "valid_depth_fraction": 1.0
+  }
+ ]
+}
