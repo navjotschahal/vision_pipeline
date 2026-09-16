@@ -1,0 +1,330 @@
+{
+  "command": "/home/nschahal/work/vision_pipeline/src/vision_pipeline/apps/benchmark_selection.py geometry --output docs/selection/m2-geometry/geometry-efficienttam-ti.json",
+  "backend": "efficienttam-ti",
+  "geometry_config": {
+    "workspace": {
+      "reference_frame": {
+        "value": "realsense_color_optical"
+      },
+      "minimum_metres": [
+        -0.9,
+        -0.7,
+        0.2
+      ],
+      "maximum_metres": [
+        0.9,
+        0.7,
+        1.8
+      ]
+    },
+    "min_depth_metres": 0.2,
+    "max_depth_metres": 2.0,
+    "sampling_stride": 2,
+    "depth_step_fraction": 0.03,
+    "depth_step_floor_metres": 0.01,
+    "component_min_fraction": 0.15,
+    "component_depth_tolerance_metres": 0.1,
+    "require_support_plane": false,
+    "table_clearance_metres": 0.01,
+    "plane_distance_threshold_metres": 0.008,
+    "plane_sampling_stride": 4,
+    "plane_iterations": 60,
+    "minimum_plane_inliers": 150,
+    "plane_search_radius_scale": 1.0,
+    "plane_search_min_radius_pixels": 30,
+    "plane_search_max_radius_pixels": 200,
+    "maximum_plane_intrusion_metres": 0.05,
+    "plane_refit_interval_frames": 10,
+    "neighbour_radius_spacings": 4.0,
+    "minimum_neighbour_radius_metres": 0.005,
+    "minimum_neighbours": 3,
+    "minimum_points": 30,
+    "label": "click-selected-object"
+  },
+  "targets": {
+    "d435i_table_static/taped_box": {
+      "click": [
+        360,
+        400
+      ],
+      "frames": 300,
+      "lost_at_frame": null,
+      "geometry_frames": 300,
+      "rejections": {},
+      "support_plane_status": {
+        "fitted": 30,
+        "cached": 270
+      },
+      "centroid_mean_metres": [
+        0.027532252331018612,
+        0.12649643877464484,
+        0.8537115548844512
+      ],
+      "centroid_std_mm": [
+        0.5173639877843624,
+        1.442625517910283,
+        0.7373241941232491
+      ],
+      "sorted_size_median_metres": [
+        0.24358919166438225,
+        0.32503489683421066,
+        0.33762197692953055
+      ],
+      "sorted_size_std_mm": [
+        8.653218861944234,
+        5.7069646452959395,
+        11.052269328086252
+      ],
+      "final_points_median": 9525.0,
+      "valid_depth_fraction_median": 0.9588078997512244,
+      "geometry_ms_p50_p95": [
+        6.742753088474274,
+        14.3840886419639
+      ]
+    },
+    "d435i_table_static/white_ball": {
+      "click": [
+        218,
+        432
+      ],
+      "frames": 300,
+      "lost_at_frame": null,
+      "geometry_frames": 300,
+      "rejections": {},
+      "support_plane_status": {
+        "fitted": 30,
+        "cached": 270
+      },
+      "centroid_mean_metres": [
+        -0.15902039065726695,
+        0.2906484669050569,
+        0.9158298511858667
+      ],
+      "centroid_std_mm": [
+        0.4356788630690093,
+        1.4601919750422365,
+        2.0450181337828224
+      ],
+      "sorted_size_median_metres": [
+        0.0377138457283662,
+        0.06877577716802635,
+        0.07331615835621402
+      ],
+      "sorted_size_std_mm": [
+        4.155929959323088,
+        3.7798715779289056,
+        4.4757556248686
+      ],
+      "final_points_median": 426.0,
+      "valid_depth_fraction_median": 1.0,
+      "geometry_ms_p50_p95": [
+        3.573201480321586,
+        7.931822130922228
+      ]
+    },
+    "d435i_table_static/side_table_box": {
+      "click": [
+        585,
+        105
+      ],
+      "frames": 300,
+      "lost_at_frame": null,
+      "geometry_frames": 300,
+      "rejections": {},
+      "support_plane_status": {
+        "fitted": 30,
+        "cached": 270
+      },
+      "centroid_mean_metres": [
+        0.6283718448297577,
+        -0.3079556484108124,
+        1.436986419230444
+      ],
+      "centroid_std_mm": [
+        1.8272615949581366,
+        1.118314592554462,
+        4.0486676472985375
+      ],
+      "sorted_size_median_metres": [
+        0.059872315133843224,
+        0.2213879957745174,
+        0.2954777392748249
+      ],
+      "sorted_size_std_mm": [
+        6.410706923819856,
+        7.082954769540851,
+        11.80887439337163
+      ],
+      "final_points_median": 1229.0,
+      "valid_depth_fraction_median": 1.0,
+      "geometry_ms_p50_p95": [
+        3.8685865001752973,
+        8.374246850144118
+      ]
+    },
+    "d435i_table_static/black_remote": {
+      "click": [
+        480,
+        322
+      ],
+      "frames": 300,
+      "lost_at_frame": null,
+      "geometry_frames": 300,
+      "rejections": {},
+      "support_plane_status": {
+        "not_found": 32,
+        "fitted": 27,
+        "cached": 241
+      },
+      "centroid_mean_metres": [
+        0.2679443302142683,
+        0.14058260123001032,
+        1.027259063045541
+      ],
+      "centroid_std_mm": [
+        3.148735382668206,
+        2.2879047699516053,
+        7.680195576614272
+      ],
+      "sorted_size_median_metres": [
+        0.03655853481944292,
+        0.060804373396465564,
+        0.11633117258420314
+      ],
+      "sorted_size_std_mm": [
+        2.0100397705423747,
+        6.244539626445363,
+        35.81928841003658
+      ],
+      "final_points_median": 170.0,
+      "valid_depth_fraction_median": 0.9668179367361611,
+      "geometry_ms_p50_p95": [
+        3.5344355273991823,
+        7.689197733998299
+      ]
+    },
+    "d435i_table_static/gripper": {
+      "click": [
+        300,
+        190
+      ],
+      "frames": 300,
+      "lost_at_frame": null,
+      "geometry_frames": 300,
+      "rejections": {},
+      "support_plane_status": {
+        "above_object": 299,
+        "fitted": 1
+      },
+      "centroid_mean_metres": [
+        -0.03692319701261094,
+        -0.09150516436074956,
+        1.0870653121603722
+      ],
+      "centroid_std_mm": [
+        0.4476785901700061,
+        1.549788875741128,
+        1.5592252294997768
+      ],
+      "sorted_size_median_metres": [
+        0.06547709089880185,
+        0.10294168288766373,
+        0.15671498904885778
+      ],
+      "sorted_size_std_mm": [
+        6.67641242364318,
+        7.115166439159409,
+        3.8348703370848187
+      ],
+      "final_points_median": 582.0,
+      "valid_depth_fraction_median": 0.9641693811074918,
+      "geometry_ms_p50_p95": [
+        8.043914916925132,
+        8.506366168148816
+      ]
+    },
+    "d435i_m0/dark_case_side": {
+      "click": [
+        115,
+        175
+      ],
+      "frames": 180,
+      "lost_at_frame": null,
+      "geometry_frames": 180,
+      "rejections": {},
+      "support_plane_status": {
+        "above_object": 180
+      },
+      "centroid_mean_metres": [
+        -0.5750948203974092,
+        -0.048593266182210014,
+        1.519962973482907
+      ],
+      "centroid_std_mm": [
+        3.193692014263301,
+        1.5206589956927272,
+        6.761403531057012
+      ],
+      "sorted_size_median_metres": [
+        0.06792286677862458,
+        0.3731147478923809,
+        0.5289049842618755
+      ],
+      "sorted_size_std_mm": [
+        9.24688307181753,
+        18.802093177201776,
+        13.35967986829984
+      ],
+      "final_points_median": 1997.5,
+      "valid_depth_fraction_median": 0.9982525538725592,
+      "geometry_ms_p50_p95": [
+        9.549342910759151,
+        10.129521752241999
+      ]
+    },
+    "d435i_m0/dark_equipment_panel": {
+      "click": [
+        470,
+        300
+      ],
+      "frames": 180,
+      "lost_at_frame": null,
+      "geometry_frames": 83,
+      "rejections": {
+        "at_or_below_support": 80,
+        "too_few_points": 17
+      },
+      "support_plane_status": {
+        "above_object": 6,
+        "fitted": 8,
+        "cached": 69
+      },
+      "centroid_mean_metres": [
+        0.22126017792561384,
+        0.06774916327208792,
+        0.868299510021349
+      ],
+      "centroid_std_mm": [
+        16.479694401271296,
+        11.710161345400586,
+        16.216671162861935
+      ],
+      "sorted_size_median_metres": [
+        0.01860736713454851,
+        0.14431676359738288,
+        0.24713604804012607
+      ],
+      "sorted_size_std_mm": [
+        6.248637797064117,
+        38.36316558800289,
+        36.308872852173394
+      ],
+      "final_points_median": 1725.0,
+      "valid_depth_fraction_median": 0.9755955839628123,
+      "geometry_ms_p50_p95": [
+        4.090941045433283,
+        9.453231398947537
+      ]
+    }
+  }
+}
