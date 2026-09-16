@@ -545,6 +545,20 @@ class RealSenseSource:
         self.close()
 
 
+def sdk_global_time_age_ms(frame: AlignedRgbdFrame, realtime_ns: int) -> float | None:
+    """Milliseconds from a frame's color capture stamp to ``realtime_ns`` (host realtime).
+
+    Only librealsense's ``global_time`` domain is mapped by the SDK to host realtime, so
+    only those stamps are used; hardware-clock or unknown domains return ``None`` rather
+    than subtracting unrelated clocks. The SDK's mapping error is not measured here.
+    """
+
+    captured_at = frame.color.header.captured_at
+    if captured_at is None or "/global_time/" not in captured_at.clock.domain_id:
+        return None
+    return (realtime_ns - captured_at.nanoseconds) / 1e6
+
+
 __all__ = [
     "RealSenseConfig",
     "RealSenseDependencyError",
@@ -556,4 +570,5 @@ __all__ = [
     "RealSenseSource",
     "RealSenseStreamInfo",
     "RealSenseStreamMode",
+    "sdk_global_time_age_ms",
 ]

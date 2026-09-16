@@ -1,0 +1,87 @@
+{
+  "path": "recordings/d435i_table_static",
+  "device": {
+    "sdk_version": "unknown",
+    "device_name": "Intel RealSense D435I",
+    "serial_number": "146322071961",
+    "firmware_version": "5.17.3.10",
+    "usb_type_descriptor": "2.1",
+    "requested_color": {
+      "width": 640,
+      "height": 480,
+      "fps": 30,
+      "pixel_format": "bgr8"
+    },
+    "requested_depth": {
+      "width": 640,
+      "height": 480,
+      "fps": 30,
+      "pixel_format": "z16"
+    },
+    "actual_color": {
+      "mode": {
+        "width": 640,
+        "height": 480,
+        "fps": 30,
+        "pixel_format": "bgr8"
+      },
+      "intrinsics": {
+        "pinhole": {
+          "width": 640,
+          "height": 480,
+          "fx": 606.0436401367188,
+          "fy": 606.1588745117188,
+          "cx": 323.8952331542969,
+          "cy": 239.6029510498047,
+          "calibration_id": null
+        },
+        "distortion_model": "inverse_brown_conrady",
+        "distortion_coefficients": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "actual_depth": {
+      "mode": {
+        "width": 640,
+        "height": 480,
+        "fps": 30,
+        "pixel_format": "z16"
+      },
+      "intrinsics": {
+        "pinhole": {
+          "width": 640,
+          "height": 480,
+          "fx": 390.6199951171875,
+          "fy": 390.6199951171875,
+          "cx": 326.9862060546875,
+          "cy": 236.82574462890625,
+          "calibration_id": null
+        },
+        "distortion_model": "brown_conrady",
+        "distortion_coefficients": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "depth_scale_metres": 0.0010000000474974513
+  },
+  "frames": 300,
+  "warmup_frames": 30,
+  "wall_fps_including_disk": 29.767761840463717,
+  "capture_receive_fps": 29.778636063934037,
+  "color_sequence_gaps": 2,
+  "sdk_global_capture_to_host_ms_p50_p95": [
+    41.3342455,
+    71.52862390000003
+  ],
+  "latency_note": "librealsense global_time is the SDK's device-to-host-realtime mapping; its mapping error is not measured here"
+}

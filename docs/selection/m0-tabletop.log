@@ -1,0 +1,16 @@
+RealSense Intel RealSense D435I serial=146322071961 usb=3.2 fw=5.17.3.10
+depth=640x480@30 color=640x480@30
+rate=  5.0 Hz  centre=(-0.009,+0.177,+0.791) m  yaw=  +3.4 deg  extents=(0.764,0.304,0.289) m  points=11991  captured=2026-09-16T09:19:45.658868+00:00  submitted=5 failed=0
+rate= 22.6 Hz  centre=(-0.006,+0.182,+0.792) m  yaw=  +3.4 deg  extents=(0.760,0.303,0.282) m  points=11782  captured=2026-09-16T09:19:47.175448+00:00  submitted=28 failed=0
+rate= 22.8 Hz  centre=(-0.007,+0.184,+0.794) m  yaw=  +3.4 deg  extents=(0.763,0.305,0.278) m  points=11811  captured=2026-09-16T09:19:48.171207+00:00  submitted=51 failed=0
+rate= 22.8 Hz  centre=(-0.007,+0.185,+0.793) m  yaw=  +3.1 deg  extents=(0.761,0.303,0.280) m  points=11635  captured=2026-09-16T09:19:49.164909+00:00  submitted=74 failed=0
+rate= 22.8 Hz  centre=(-0.008,+0.176,+0.796) m  yaw=  +3.4 deg  extents=(0.759,0.303,0.290) m  points=11776  captured=2026-09-16T09:19:50.165197+00:00  submitted=97 failed=0
+rate= 22.8 Hz  centre=(-0.009,+0.177,+0.794) m  yaw=  +3.1 deg  extents=(0.759,0.304,0.294) m  points=11656  captured=2026-09-16T09:19:51.198594+00:00  submitted=120 failed=0
+rate= 22.6 Hz  centre=(-0.009,+0.211,+0.799) m  yaw=  +1.2 deg  extents=(0.762,0.303,0.241) m  points=10920  captured=2026-09-16T09:19:52.198991+00:00  submitted=143 failed=0
+rate= 22.7 Hz  centre=(-0.008,+0.181,+0.793) m  yaw=  +3.3 deg  extents=(0.758,0.302,0.287) m  points=11713  captured=2026-09-16T09:19:53.199976+00:00  submitted=166 failed=0
+rate= 22.7 Hz  centre=(-0.008,+0.182,+0.794) m  yaw=  +3.4 deg  extents=(0.759,0.304,0.279) m  points=11672  captured=2026-09-16T09:19:54.234078+00:00  submitted=189 failed=0
+rate= 22.6 Hz  centre=(-0.008,+0.185,+0.792) m  yaw=  +3.5 deg  extents=(0.760,0.304,0.276) m  points=11733  captured=2026-09-16T09:19:55.235031+00:00  submitted=212 failed=0
+rate= 22.7 Hz  centre=(-0.006,+0.185,+0.790) m  yaw=  +3.6 deg  extents=(0.761,0.302,0.276) m  points=11595  captured=2026-09-16T09:19:56.269790+00:00  submitted=235 failed=0
+rate= 22.3 Hz  centre=(-0.008,+0.179,+0.794) m  yaw=  +3.5 deg  extents=(0.758,0.304,0.286) m  points=11716  captured=2026-09-16T09:19:57.303877+00:00  submitted=258 failed=0
+rate= 22.6 Hz  centre=(-0.010,+0.181,+0.794) m  yaw=  +3.2 deg  extents=(0.765,0.303,0.287) m  points=11697  captured=2026-09-16T09:19:58.304612+00:00  submitted=281 failed=0
+final: submitted=300 failed=0 success_rate=100.0%
