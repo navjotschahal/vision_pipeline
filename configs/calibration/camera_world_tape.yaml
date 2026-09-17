@@ -8,8 +8,8 @@
 #
 # Measure in metres along those world axes. Roll and pitch come from the IMU at start-up,
 # so only position and heading are taped. Replace every value, then set measured: true.
-measured: false
-measured_on: "YYYY-MM-DD"
+measured: true
+measured_on: "2026-09-16"
 world_frame: openarm_body_link0
 camera_frame: realsense_color_optical
 
@@ -24,14 +24,21 @@ reference_point_world_metres: [0.0, 0.0, 0.0]
 # the camera if the camera faces the robot), robot-left +y (stand behind the robot facing
 # the same way it does; your left is +y -- that is the RIGHT side of the camera image when
 # the camera faces the robot), up +z.
-camera_offset_from_reference_metres: [0.0, 0.0, 0.0]
+camera_offset_from_reference_metres: [0.78, 0.0, 0.83]
 
 # Heading: give ONE of these.
 # Preferred: run `cpf_box_handoff --measure`, put a coin on the table under the crosshair,
 # and tape the coin's world position (z = 0 on the table top).
-aim_point_world_metres: [0.0, 0.0, 0.0]
+# aim_point_world_metres: [0.0, 0.0, 0.0]
 # Or the optical-axis direction projected on the floor, degrees from world +x toward +y
 # (a camera in front of the robot looking straight back at it is 180).
-# heading_deg: 180.0
+heading_deg: 185.8
 
-notes: ""
+notes: >-
+  x 0.78 and y 0.00 taped by the operator to the RGB lens (housing front at x 0.80). The
+  taped height 1.24 m disagreed with depth, so z comes from depth: a plane fit to the
+  table (the robot base stands on it, world z = 0) puts the lens 0.829 m above it, and a
+  ball placed on the table at the column base is 1.077 m from the lens (1.465 m if the
+  lens were 1.24 m up). Heading was not taped: 185.8 deg centres the depth points of the
+  robot's vertical column on y = 0, with its front face at x 0.037 m (model 0.030 m).
+  IMU 2026-09-16: optical axis 45.5 deg below horizontal, image tilt 3.9 deg.
