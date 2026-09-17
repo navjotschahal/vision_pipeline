@@ -23,6 +23,11 @@ python -m vision_pipeline.apps.select_object --ndjson /tmp/selected.ndjson   # d
 python -m vision_pipeline.apps.select_object --replay recordings/d435i_table_static
 python -m vision_pipeline.apps.select_object --no-display --click 218 432 --duration 15
 
+# CPF bimanual box grasp handoff (tape + IMU extrinsic; see configs/calibration/camera_world_tape.yaml).
+python -m vision_pipeline.apps.cpf_box_handoff --measure   # crosshair to tape the heading aim point
+python -m vision_pipeline.apps.cpf_box_handoff             # click box, press s when READY
+#   -> recordings/cpf_handoffs/cpf_box_*.json and the grasp_planner.py --object-pos/--half-width args
+
 # Deterministic RGB-D recording (never overwrites) and its diagnostics.
 python -m vision_pipeline.apps.record_rgbd recordings/<new-name> --frames 300
 

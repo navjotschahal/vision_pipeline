@@ -26,6 +26,7 @@ import math
 import sys
 import time
 from collections import deque
+from collections.abc import Callable
 from dataclasses import replace
 from pathlib import Path
 from typing import Any, TextIO
@@ -224,9 +225,18 @@ def _unit_axes(bounds: OrientedBox3D) -> list[list[float]]:
 class SelectionView:
     """Draws pipeline outputs and turns mouse events into operator commands."""
 
-    def __init__(self, pipeline: SelectionPipeline, *, scale: float, cloud_size: int) -> None:
+    def __init__(
+        self,
+        pipeline: SelectionPipeline,
+        *,
+        scale: float,
+        cloud_size: int,
+        overlay: Callable[[np.ndarray, MaskOutput, GeometryOutput | None], None] | None = None,
+    ) -> None:
         self._pipeline = pipeline
         self._scale = scale
+        # Extra drawing on the unscaled colour image, after the built-in layers.
+        self._overlay = overlay
         self._renderer = PointCloudRenderer(
             PointCloudViewConfig(width=cloud_size, height=cloud_size, point_size=2)
         )
@@ -361,6 +371,8 @@ class SelectionView:
                     18,
                     2,
                 )
+        if self._overlay is not None:
+            self._overlay(image, mask, geometry)
         if self._scale != 1.0:
             image = np.asarray(
                 cv2.resize(
@@ -542,6 +554,45 @@ class _StatusPrinter:
         )
 
 
+def run_view_loop(
+    pipeline: SelectionPipeline,
+    view: SelectionView | None,
+    *,
+    duration_s: float = 0.0,
+    on_key: Callable[[int], None] | None = None,
+) -> None:
+    """Show the view until quit, the duration ends, or the source finishes.
+
+    ``q``/Esc quit, ``c`` clears, view keys rotate the cloud; any other key is passed to
+    ``on_key``. Without a view this only waits.
+    """
+
+    deadline = time.monotonic() + duration_s if duration_s > 0 else math.inf
+    if view is not None:
+        cv2.namedWindow(WINDOW, cv2.WINDOW_AUTOSIZE)
+        cv2.setMouseCallback(WINDOW, view.on_mouse)
+    last_index = -1
+    while time.monotonic() < deadline and not pipeline.finished:
+        if view is None:
+            time.sleep(0.2)
+            continue
+        latest = pipeline.latest_mask
+        if latest is not None and latest.index != last_index:
+            canvas = view.render()
+            if canvas is not None:
+                cv2.imshow(WINDOW, canvas)
+            last_index = latest.index
+        key = cv2.waitKey(5) & 0xFF
+        if key in (ord("q"), 27):
+            break
+        if key == ord("c"):
+            view.clear()
+        elif key != 255:
+            view.handle_view_key(key)
+            if on_key is not None:
+                on_key(key)
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -615,30 +666,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.no_display
         else SelectionView(pipeline, scale=args.display_scale, cloud_size=args.cloud_size)
     )
-    deadline = time.monotonic() + args.duration if args.duration > 0 else math.inf
     try:
         pipeline.start()
-        if view is not None:
-            cv2.namedWindow(WINDOW, cv2.WINDOW_AUTOSIZE)
-            cv2.setMouseCallback(WINDOW, view.on_mouse)
-        last_index = -1
-        while time.monotonic() < deadline and not pipeline.finished:
-            if view is None:
-                time.sleep(0.2)
-                continue
-            latest = pipeline.latest_mask
-            if latest is not None and latest.index != last_index:
-                canvas = view.render()
-                if canvas is not None:
-                    cv2.imshow(WINDOW, canvas)
-                last_index = latest.index
-            key = cv2.waitKey(5) & 0xFF
-            if key in (ord("q"), 27):
-                break
-            if key == ord("c"):
-                view.clear()
-            elif key != 255:
-                view.handle_view_key(key)
+        run_view_loop(pipeline, view, duration_s=args.duration)
     except KeyboardInterrupt:
         print("\ninterrupted by operator")
     finally:
