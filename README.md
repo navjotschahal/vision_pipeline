@@ -147,3 +147,35 @@ pytest
 ruff check .
 mypy
 ```
+
+## Linux NVIDIA + RealSense setup
+
+The Linux workstation bootstrap creates a repository-local `.venv`, installs its own
+managed Python (so it does not alter the system Python), installs a CUDA PyTorch build,
+and installs the RealSense Python SDK plus this project:
+
+```bash
+cd ~/work/vision_pipeline
+./scripts/bootstrap_linux_gpu.sh
+source .venv/bin/activate
+```
+
+The default versions are deliberately pinned for a reproducible first deployment:
+Python 3.12, PyTorch 2.7.1 with CUDA 12.6 wheels, and `pyrealsense2` 2.56.5 to match the
+2.56.5 librealsense tools on the workstation. The script finishes by allocating a CUDA
+tensor and enumerating the attached RealSense devices. It is safe to rerun.
+
+Version pins and required hardware checks can be overridden explicitly, for example:
+
+```bash
+VISION_REQUIRE_REALSENSE=0 VISION_PYTHON_VERSION=3.12 \
+  ./scripts/bootstrap_linux_gpu.sh
+```
+
+The base environment is for capture, segmentation/detection, point-cloud geometry, and
+the current tabletop estimator. Research grasp-generation systems with compiled CUDA
+extensions should use a separate environment or container so their narrow dependency
+pins cannot destabilize camera capture.
+
+The implementation handoff for the on-host Codex agent is in
+[`LINUX_AGENT_BRIEF.md`](LINUX_AGENT_BRIEF.md).
