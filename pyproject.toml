@@ -18,6 +18,12 @@ webcam = [
 yolo = [
     "ultralytics>=8.4,<9",
 ]
+kuka-sim = [
+    "numpy>=1.26,<2.5",
+    "opencv-python>=4.10,<5",
+    "ultralytics>=8.4,<9",
+    "mujoco>=3.3,<4",
+]
 dino = [
     "numpy>=1.26,<2.5",
     "opencv-python>=4.10,<5",

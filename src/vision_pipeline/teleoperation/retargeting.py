@@ -82,8 +82,7 @@ class AxisAlignedWorkspace:
         _finite_vector(self.minimum_metres, 3, "minimum_metres")
         _finite_vector(self.maximum_metres, 3, "maximum_metres")
         if any(
-            low >= high
-            for low, high in zip(self.minimum_metres, self.maximum_metres, strict=True)
+            low >= high for low, high in zip(self.minimum_metres, self.maximum_metres, strict=True)
         ):
             raise ValueError("workspace minimums must be smaller than maximums")
 
@@ -109,6 +108,7 @@ class ArmRetargetingConfig:
     workspace: AxisAlignedWorkspace
     maximum_linear_speed_metres_per_second: float = 0.25
     minimum_landmark_confidence: float = 0.6
+    operator_chain: tuple[HumanJoint, ...] | None = None
 
     def __post_init__(self) -> None:
         if not isinstance(self.side, ArmSide):
@@ -132,6 +132,13 @@ class ArmRetargetingConfig:
             raise TypeError("minimum_landmark_confidence must be a number")
         if not math.isfinite(confidence) or not 0 <= confidence <= 1:
             raise ValueError("minimum_landmark_confidence must be between zero and one")
+        if self.operator_chain is not None:
+            if len(self.operator_chain) < 2 or len(set(self.operator_chain)) != len(
+                self.operator_chain
+            ):
+                raise ValueError("operator_chain needs at least two distinct joints")
+            if any(not isinstance(joint, HumanJoint) for joint in self.operator_chain):
+                raise TypeError("operator_chain must contain HumanJoint values")
 
 
 @dataclass(frozen=True, slots=True)
@@ -218,6 +225,12 @@ class BimanualRetargeter:
             raise ValueError("left robot anchor is not in the configured left base frame")
         if right_robot_pose.reference_frame != self._config.right.robot_base_frame:
             raise ValueError("right robot anchor is not in the configured right base frame")
+        try:
+            age_seconds = (now - pose.source_header.received_at) / 1_000_000_000
+        except ClockDomainMismatchError as error:
+            raise ValueError("operator observation clock does not match controller") from error
+        if age_seconds < 0 or age_seconds > self._config.maximum_observation_age_seconds:
+            raise ValueError("operator observation is stale or from the future")
         left_relative, _ = self._operator_arm(pose, self._config.left)
         right_relative, _ = self._operator_arm(pose, self._config.right)
         self._calibration = _Calibration(
@@ -338,19 +351,17 @@ class BimanualRetargeter:
         return None
 
     @staticmethod
-    def _operator_arm(
-        pose: HumanPose3D, config: ArmRetargetingConfig
-    ) -> tuple[Vector3, float]:
-        shoulder_joint, elbow_joint, wrist_joint = _ARM_JOINTS[config.side]
+    def _operator_arm(pose: HumanPose3D, config: ArmRetargetingConfig) -> tuple[Vector3, float]:
+        chain = config.operator_chain or _ARM_JOINTS[config.side]
         landmarks: list[HumanKeypoint3D] = []
-        for joint in (shoulder_joint, elbow_joint, wrist_joint):
+        for joint in chain:
             landmark = pose.get(joint)
             if landmark is None:
                 raise ValueError(f"{config.side.value}-{joint.value}-missing")
             if landmark.confidence < config.minimum_landmark_confidence:
                 raise ValueError(f"{config.side.value}-{joint.value}-low-confidence")
             landmarks.append(landmark)
-        shoulder, _elbow, wrist = landmarks
+        shoulder, wrist = landmarks[0], landmarks[-1]
         return (
             _subtract(wrist.position_metres, shoulder.position_metres),
             min(item.confidence for item in landmarks),
@@ -377,8 +388,8 @@ class BimanualRetargeter:
         limited_delta = (delta[0] * ratio, delta[1] * ratio, delta[2] * ratio)
         return _add(previous, limited_delta), True
 
+    @staticmethod
     def _retarget_arm(
-        self,
         config: ArmRetargetingConfig,
         anchor: _ArmAnchor,
         operator_relative: Vector3,
@@ -393,7 +404,7 @@ class BimanualRetargeter:
         )
         candidate = _add(anchor.robot_pose.position_metres, robot_delta)
         candidate, workspace_limited = config.workspace.clamp(candidate)
-        candidate, rate_limited = self._rate_limit(
+        candidate, rate_limited = BimanualRetargeter._rate_limit(
             previous.pose.position_metres,
             candidate,
             config.maximum_linear_speed_metres_per_second * elapsed_seconds,

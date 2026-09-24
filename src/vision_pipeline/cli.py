@@ -89,6 +89,32 @@ def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="vision-pipeline")
     commands = parser.add_subparsers(dest="command", required=True)
 
+    pose = commands.add_parser("human-pose", help="preview selected human limb links")
+    pose.add_argument("--camera", type=int, default=0)
+    pose.add_argument("--model", default="yolo11n-pose.pt")
+    pose.add_argument("--device", help="inference device, e.g. cpu, mps, cuda:0")
+    pose.add_argument("--person-index", type=int, default=0)
+    pose.add_argument(
+        "--chain",
+        action="append",
+        default=[],
+        metavar="NAME:JOINT,JOINT,...",
+        help="repeat to select chains; defaults to both arms",
+    )
+    pose.add_argument("--max-frames", type=int, default=0)
+    pose.add_argument("--headless", action="store_true")
+    pose.add_argument("--output", type=Path, help="write selected links as JSONL")
+
+    kuka = commands.add_parser(
+        "kuka-webcam-sim", help="webcam planar teleop of CPF's KUKA MuJoCo arm"
+    )
+    kuka.add_argument("--poc-root", type=Path, help="path to Navjot_IS/poc")
+    kuka.add_argument("--camera", type=int, default=0)
+    kuka.add_argument("--model", default="yolo11n-pose.pt")
+    kuka.add_argument("--device", help="pose inference device")
+    kuka.add_argument("--headless", action="store_true")
+    kuka.add_argument("--max-seconds", type=float, default=0)
+
     webcam = commands.add_parser("webcam", help="capture the laptop webcam")
     webcam.add_argument("--config", help="YAML configuration file")
     webcam.add_argument("--device", dest="device_index", type=int, help="OpenCV camera index")
@@ -1118,6 +1144,50 @@ def _run_webcam(args: argparse.Namespace) -> int:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
+    if args.command == "kuka-webcam-sim":
+        try:
+            from vision_pipeline.apps.kuka_webcam_teleop import (
+                default_poc_root,
+                run_kuka_webcam_teleop,
+            )
+
+            return run_kuka_webcam_teleop(
+                poc_root=args.poc_root or default_poc_root(),
+                camera=args.camera,
+                model_name=args.model,
+                device=args.device,
+                headless=args.headless,
+                max_seconds=args.max_seconds,
+            )
+        except (ValueError, OSError, RuntimeError, ModuleNotFoundError) as error:
+            print(f"KUKA webcam simulation error: {error}", file=sys.stderr)
+            return 2
+    if args.command == "human-pose":
+        from vision_pipeline.apps.human_pose_viewer import run_human_pose_viewer
+        from vision_pipeline.perception.pose import HumanJoint
+        from vision_pipeline.perception.pose.chains import LEFT_ARM, RIGHT_ARM, LimbChain
+
+        try:
+            chains = []
+            for spec in args.chain:
+                name, separator, joints = spec.partition(":")
+                if not separator:
+                    raise ValueError("chain must have NAME:JOINT,JOINT,... format")
+                chain_joints = tuple(HumanJoint(item) for item in joints.split(","))
+                chains.append(LimbChain(name, chain_joints))
+            return run_human_pose_viewer(
+                camera=args.camera,
+                model=args.model,
+                device=args.device,
+                person_index=args.person_index,
+                chains=tuple(chains) or (LEFT_ARM, RIGHT_ARM),
+                max_frames=args.max_frames,
+                headless=args.headless,
+                output=args.output,
+            )
+        except (ValueError, OSError, ModuleNotFoundError) as error:
+            print(f"human pose error: {error}", file=sys.stderr)
+            return 2
     if args.command == "webcam":
         return _run_webcam(args)
     if args.command == "dino-webcam":

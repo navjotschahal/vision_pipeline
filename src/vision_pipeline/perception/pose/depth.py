@@ -106,7 +106,9 @@ class DepthPoseLifter:
                 continue
             depth = float(np.median(valid))
             mad = float(np.median(np.abs(valid - depth)))
-            if mad > self._config.maximum_depth_mad_metres:
+            # MAD alone misses a second depth surface occupying a quarter of the patch.
+            upper_deviation = float(np.quantile(np.abs(valid - depth), 0.75))
+            if max(mad, upper_deviation) > self._config.maximum_depth_mad_metres:
                 continue
             lifted.append(
                 HumanKeypoint3D(

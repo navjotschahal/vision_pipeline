@@ -179,3 +179,84 @@ pins cannot destabilize camera capture.
 
 The implementation handoff for the on-host Codex agent is in
 [`LINUX_AGENT_BRIEF.md`](LINUX_AGENT_BRIEF.md).
+
+# Human pose links for arm retargeting
+
+The `human-pose` command runs an optional YOLO COCO-17 pose checkpoint on a webcam,
+draws selected links, and can write timestamped JSONL observations. Install with
+`python3 -m pip install -e '.[webcam,yolo]'`. The first run may download the
+checkpoint.
+
+```sh
+vision-pipeline human-pose --chain left_arm:left_shoulder,left_elbow,left_wrist \
+  --chain right_arm:right_shoulder,right_elbow,right_wrist
+vision-pipeline human-pose --headless --max-frames 100 --output pose-links.jsonl
+```
+
+`HumanPoseLinkPipeline` combines any `HumanPoseEstimator` with selected `LimbChain`
+definitions. With aligned depth in metres and matching camera intrinsics it emits
+metric `HumanPose3D` joints and valid 3D links. Without aligned depth it emits only
+image coordinates. A single RGB camera does not supply metric 3D position through
+this backend.
+
+`SingleArmRetargeter` or `BimanualRetargeter` consumes the metric pose and maps each configured
+`ArmRetargetingConfig.operator_chain` from its first to last joint. The default
+chain is shoulder, elbow, wrist. Engage captures a neutral operator and robot TCP
+pose. The target includes a base frame, workspace and speed limits, confidence,
+and an expiry time. A downstream controller must implement IK, joint and collision
+limits, interpolation, and an independent stop/deadman mechanism. The current
+bimanual retargeter requires both arms to be valid. The webcam viewer never sends commands.
+
+## Webcam to KUKA MuJoCo demo
+
+The optional demo reuses the KUKA iiwa14 MJCF scene, home pose, torque limits,
+`MujocoRobotView`, and `JointImpedanceController` from the sibling CPF PoC. It
+does not modify that checkout or run the CPF contact filter. Install the optional
+dependencies, then launch from this repository:
+
+```sh
+python3 -m pip install -e '.[kuka-sim]'
+./.venv/bin/mjpython -m vision_pipeline kuka-webcam-sim \
+  --poc-root ../Navjot_IS/poc --camera 0
+```
+
+On macOS, MuJoCo's passive viewer requires `mjpython`. The demo opens **two
+windows**: MuJoCo and a camera preview with the tracked arm drawn over it. In
+either window, press `c` to capture a neutral clutch pose, `h` to disarm and hold,
+or `q` to quit.
+Exactly one person must be visible to engage. If you use another environment,
+invoke its `mjpython` instead of the path above. Run a bounded no-window check
+with `--headless --max-seconds 10`. Pose status also appears in the terminal.
+
+This webcam-only mapping uses the selected right shoulder, elbow, and wrist.
+Relative wrist movement across the image controls the simulated KUKA tool's
+**Y** coordinate; vertical image movement controls **Z**. The **X target stays
+fixed** at the clutch pose because one webcam cannot measure metric depth. Tool
+orientation is not controlled by this demo.
+The target is bounded and speed-limited; a damped positional IK solver converts
+it to KUKA joint targets, which the PoC impedance controller tracks. Missing,
+stale, low-confidence, or multi-person observations hold the current joint
+position. This is a simulation experiment and is not wired to physical hardware.
+
+The live YOLO backend selects a detection index and does **not** maintain person
+identity when people enter, leave, or cross. Do not use its `person_id` alone to
+engage a physical robot. Add an operator tracker or explicit selection and reject
+identity uncertainty before forwarding any target.
+
+Meta research options (checked September 2026):
+
+- [Sapiens2](https://github.com/facebookresearch/sapiens2) (ICLR 2026) supplies
+  308 whole-body 2D keypoints, including detailed hands. Its documented inference
+  uses 1024 x 768 crops and large 0.4B to 5B models, so measure latency on the
+  deployment computer before choosing it for teleoperation.
+- [SAM 3D Body](https://github.com/facebookresearch/sam-3d-body) (CVPR 2026)
+  recovers a 3D body mesh and joints from a single image. Its model weights require
+  Hugging Face access and its predictions remain model estimates, not calibrated
+  metric RGB-D measurements. It is useful for an offline/slow 3D backend, subject
+  to its [SAM License](https://github.com/facebookresearch/sam-3d-body/blob/main/LICENSE).
+- [RTMW](https://arxiv.org/abs/2407.08634) is an open real-time whole-body 2D/3D
+  alternative available in [MMPose](https://github.com/open-mmlab/mmpose).
+
+The included live backend is deliberately small and replaceable. None of these
+papers establishes end-to-end safe Franka control; that requires testing the full
+camera, calibration, network, and robot loop.
