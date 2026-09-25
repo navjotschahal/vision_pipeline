@@ -5,9 +5,22 @@
 # actions from openarm_bringup/config/controllers/openarm_bimanual_controllers.yaml
 # (checked 2026-09-16). The flange is each arm's last moving link, which carries the board.
 #
-# board: PLACEHOLDER until the plate is printed. Measure one printed square with calipers
-# and write the measured size here before collecting data.
+# board: the default 7x5 / 30 mm / 22 mm DICT_4X4_50 board that
+# `python -m vision_pipeline.apps.openarm_hand_eye board` prints. Measure one printed
+# square with calipers and pass the measured size with --square-mm (or edit it here).
 rig: openarm_v1_bimanual
+
+# CPF (no ROS) path used by apps/openarm_hand_eye.py: joint state comes from the RT
+# driver's shared-memory status block and forward kinematics from the same MuJoCo model
+# the controller loads. The MuJoCo world body is openarm_body_link0, so FK is already in
+# CPF's world frame and the hand-eye result is world_from_camera directly.
+cpf:
+  model_xml: /home/nschahal/Desktop/work/cpf/src/sim/assets/scene_sim_openarm_bimanual.xml
+  hw_dir: /home/nschahal/Desktop/work/cpf/src/openarm_hw
+  shm_name: /openarm_cpf
+  arms:
+    right: {shm_index: 0, mujoco_body: openarm_right_hand}
+    left: {shm_index: 1, mujoco_body: openarm_left_hand}
 camera:
   frame: realsense_color_optical
   serial: "146322071961"

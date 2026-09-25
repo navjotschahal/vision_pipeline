@@ -1,0 +1,177 @@
+{
+  "schema": "openarm-cpf-hand-eye-v1",
+  "method": "plate against the base: PnP of the marker plate lying flat with its edge pushed against the base, orientation axis-aligned by contact, offsets measured by ruler",
+  "world_frame": "openarm_body_link0",
+  "camera_frame": "realsense_color_optical",
+  "camera_serial": "146322071961",
+  "arm": "static",
+  "measured_on": "2026-09-25",
+  "color_resolution": [
+    1280,
+    720
+  ],
+  "camera_matrix": [
+    [
+      909.0654296875,
+      0.0,
+      645.8428344726562
+    ],
+    [
+      0.0,
+      909.23828125,
+      359.4044189453125
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "board": {
+    "pattern": "aruco_grid",
+    "markers_x": 2,
+    "markers_y": 3,
+    "marker_length_metres": 0.06,
+    "separation_metres": 0.022,
+    "dictionary": "DICT_APRILTAG_36h11",
+    "ids": [
+      5,
+      4,
+      3,
+      2,
+      1,
+      0
+    ]
+  },
+  "placement": {
+    "contact_x_m": 0.095,
+    "margin_mm": 10.0,
+    "lateral_mm": 0.0,
+    "thickness_mm": 32.0,
+    "long_side_along": "y",
+    "orientation_deviation_from_initial_deg": 9.585617364078649
+  },
+  "initial_estimate": "/home/nschahal/work/vision_pipeline/recordings/cpf_handoffs/last_extrinsic.json",
+  "world_from_camera": [
+    [
+      -0.19372910304893448,
+      0.7565879409577191,
+      -0.6245348046580065,
+      0.9102835316379034
+    ],
+    [
+      0.9793137677135101,
+      0.11122652503784106,
+      -0.1690361041161794,
+      0.09533796405176144
+    ],
+    [
+      -0.05842584187347777,
+      -0.644362745451167,
+      -0.7624848019967415,
+      0.9026677916570298
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "camera_from_world": [
+    [
+      -0.19372910304893448,
+      0.9793137677135101,
+      -0.05842584187347777,
+      0.13572175698239672
+    ],
+    [
+      0.7565879409577191,
+      0.11122652503784106,
+      -0.644362745451167,
+      -0.1176681568728364
+    ],
+    [
+      -0.6245348046580065,
+      -0.1690361041161794,
+      -0.7624848019967415,
+      1.2728897780230028
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "camera_position_world_metres": [
+    0.9102835316379034,
+    0.09533796405176144,
+    0.9026677916570298
+  ],
+  "heading_deg": -164.8552264919186,
+  "camera_pitch_down_deg": 49.68374494391221,
+  "camera_roll_deg": 3.3494616087918416,
+  "world_from_target": [
+    [
+      1.0,
+      -0.0,
+      0.0,
+      0.105
+    ],
+    [
+      -0.0,
+      -1.0,
+      0.0,
+      0.11200000283618768
+    ],
+    [
+      0.0,
+      -0.0,
+      -1.0,
+      0.032
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "camera_from_target": [
+    [
+      -0.19372910304893448,
+      -0.9793137677135101,
+      0.05842584187347777,
+      0.22319371898373816
+    ],
+    [
+      0.7565879409577191,
+      -0.11122652503784106,
+      0.644362745451167,
+      -0.0463886598070158
+    ],
+    [
+      -0.6245348046580065,
+      0.1690361041161794,
+      0.7624848019967415,
+      1.1639820657295858
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "pnp_rms_px": 0.7942105729260809,
+  "frames": 59,
+  "samples": 1,
+  "reprojection_rms_pixels": 0.7942105729260809,
+  "comparisons": {
+    "initial_estimate": {
+      "translation_mm": 177.0416164349192,
+      "rotation_deg": 10.359509520419621
+    }
+  }
+}

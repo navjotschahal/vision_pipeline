@@ -11,3 +11,9 @@ build/
 *.pt
 *.onnx
 recordings
+
+# Calibration captures and check snapshots (images, depth, per-run logs); results stay tracked.
+calibrations/openarm_v1/sessions/
+calibrations/openarm_v1/registration_sessions/
+calibrations/openarm_v1/checks/
+calibrations/openarm_v1/identify_*.png

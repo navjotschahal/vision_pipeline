@@ -1,10 +1,13 @@
 # Camera-to-robot calibration: how it works and how we will automate it
 
-Status, 2026-09-16:
+Status, 2026-09-24:
 - **Done:** the robot-agnostic solver, validation, pose selection, and rig profiles are
   implemented and tested on synthetic data.
-- **Not built yet:** the ROS 2 bridge and live capture.
-- **Robot motion:** nothing here moves the robot.
+- **Done (bench path):** live capture and solve through CPF's shared memory instead of
+  ROS 2, hand-guided rather than planned: see
+  [openarm-cpf-hand-eye.md](openarm-cpf-hand-eye.md) and `apps/openarm_hand_eye.py`.
+  Sections 6-7 below describe the ROS 2/MoveIt automatic variant, which is not built.
+- **Robot motion:** nothing here moves the robot; the operator hand-guides a compliant arm.
 
 ## 1. What is being calibrated
 

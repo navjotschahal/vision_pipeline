@@ -4,9 +4,14 @@
     python -m vision_pipeline.apps.cpf_box_handoff                  # select + estimate + save
 
 Pipeline: click-selected mask (EfficientTAM) -> metric cloud from the same frame's aligned
-depth -> tape + IMU extrinsic into ``openarm_body_link0`` -> gravity-aligned box -> median
+depth -> camera extrinsic into ``openarm_body_link0`` -> gravity-aligned box -> median
 over a window -> ``object_pos`` and ``half_width`` for
 ``cpf/src/openarm_hw/tools/grasp_planner.py``.
+
+The extrinsic is, in order of preference (``--extrinsic auto``): the hand-eye calibration
+in ``calibrations/openarm_v1/current.json`` (``apps/openarm_hand_eye.py``), otherwise the
+tape + IMU estimate. ``--extrinsic tape`` forces the tape path and ``--extrinsic PATH``
+loads any extrinsic JSON with ``world_from_camera``.
 
 The colour view draws the world box (magenta), the two hand attractors before any squeeze
 (left green, right orange, at ``object_pos +/- (half_width + palm_offset)`` along world y),
@@ -42,6 +47,11 @@ from vision_pipeline.calibration.manual_extrinsic import (
     build_manual_extrinsic,
     load_tape_measurement,
     sample_gravity,
+)
+from vision_pipeline.calibration.openarm_cpf import (
+    CURRENT_CALIBRATION,
+    FileExtrinsic,
+    load_extrinsic_file,
 )
 from vision_pipeline.geometry.camera import PinholeIntrinsics
 from vision_pipeline.perception.objects.box_grasp import (
@@ -93,7 +103,9 @@ def _project(
 class BoxHandoff:
     """Consumes geometry outputs, keeps the estimate window, and draws the world overlay."""
 
-    def __init__(self, extrinsic: ManualExtrinsic, limits: CpfGraspLimits, window: int) -> None:
+    def __init__(
+        self, extrinsic: ManualExtrinsic | FileExtrinsic, limits: CpfGraspLimits, window: int
+    ) -> None:
         self.extrinsic = extrinsic
         self.limits = limits
         self.window = BoxEstimateWindow(size=window)
@@ -124,9 +136,10 @@ class BoxHandoff:
         record = self.record
         intrinsics = mask.frame.color_intrinsics
         lines: list[tuple[str, tuple[int, int, int]]] = []
-        if record is not None and mask.update.is_tracking:
-            stable = self.window.summary()
-            assert stable is not None
+        # The geometry thread may clear the window between these two reads; skip the
+        # overlay for this frame instead of asserting.
+        stable = self.window.summary() if record is not None else None
+        if record is not None and stable is not None and mask.update.is_tracking:
             corners = box_corners_world(_as_estimate(stable))
             pixels = _project(corners, self.camera_from_world, intrinsics)
             if pixels is not None:
@@ -253,12 +266,43 @@ def run_measure_mode(serial: str | None) -> int:
         cv2.destroyAllWindows()
 
 
+def _tape_imu_extrinsic(
+    args: argparse.Namespace, parser: argparse.ArgumentParser, serial: str | None
+) -> ManualExtrinsic:
+    """The 2026-09-16 fallback: taped position and heading, IMU roll and pitch."""
+
+    tape = load_tape_measurement(args.tape)
+    if args.gravity_json:
+        saved = json.loads(Path(args.gravity_json).read_text())
+        saved = saved.get("gravity", saved)
+        mean, spread = saved["mean_acceleration_imu"], saved["standard_deviation_imu"]
+        gravity = GravitySample(
+            mean_acceleration_imu=(float(mean[0]), float(mean[1]), float(mean[2])),
+            standard_deviation_imu=(float(spread[0]), float(spread[1]), float(spread[2])),
+            samples=int(saved["samples"]),
+            duration_s=float(saved["duration_s"]),
+            color_from_imu_rotation=tuple(float(v) for v in saved["color_from_imu_rotation"]),
+        )
+    elif args.replay:
+        parser.error("--replay needs --gravity-json (the recording has no IMU data)")
+    else:
+        print("sampling the accelerometer; keep the camera still...", flush=True)
+        gravity = sample_gravity(serial)
+    return build_manual_extrinsic(tape, gravity)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument("--config", default=str(DEFAULT_CONFIG_PATH))
     parser.add_argument("--tape", default=str(TAPE_CONFIG), help="tape measurement YAML")
+    parser.add_argument(
+        "--extrinsic",
+        default="auto",
+        help="'auto' (hand-eye calibrations/openarm_v1/current.json if present, else tape + IMU), "
+        "'tape', or a path to an extrinsic JSON",
+    )
     parser.add_argument(
         "--measure", action="store_true", help="crosshair mode for taping the heading"
     )
@@ -279,30 +323,30 @@ def main(argv: list[str] | None = None) -> int:
     if args.measure:
         return run_measure_mode(serial)
 
-    tape = load_tape_measurement(args.tape)
-    if args.gravity_json:
-        saved = json.loads(Path(args.gravity_json).read_text())
-        saved = saved.get("gravity", saved)
-        mean, spread = saved["mean_acceleration_imu"], saved["standard_deviation_imu"]
-        gravity = GravitySample(
-            mean_acceleration_imu=(float(mean[0]), float(mean[1]), float(mean[2])),
-            standard_deviation_imu=(float(spread[0]), float(spread[1]), float(spread[2])),
-            samples=int(saved["samples"]),
-            duration_s=float(saved["duration_s"]),
-            color_from_imu_rotation=tuple(float(v) for v in saved["color_from_imu_rotation"]),
+    extrinsic: ManualExtrinsic | FileExtrinsic
+    hand_eye_path: Path | None = None
+    if args.extrinsic == "auto" and CURRENT_CALIBRATION.is_file():
+        hand_eye_path = CURRENT_CALIBRATION
+    elif args.extrinsic not in ("auto", "tape"):
+        hand_eye_path = Path(args.extrinsic)
+    if hand_eye_path is not None:
+        extrinsic = load_extrinsic_file(hand_eye_path)
+        summary = extrinsic.summary()
+        print(
+            f"extrinsic from {hand_eye_path} ({summary.get('measured_on')}, "
+            f"{summary.get('samples', '?')} poses, "
+            f"RMS {summary.get('reprojection_rms_pixels', float('nan')):.2f} px)",
+            flush=True,
         )
-    elif args.replay:
-        parser.error("--replay needs --gravity-json (the recording has no IMU data)")
     else:
-        print("sampling the accelerometer; keep the camera still...", flush=True)
-        gravity = sample_gravity(serial)
-    extrinsic = build_manual_extrinsic(tape, gravity)
+        extrinsic = _tape_imu_extrinsic(args, parser, serial)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / "last_extrinsic.json").write_text(
-        json.dumps({**extrinsic.summary(), "gravity": asdict(gravity)}, indent=2)
-    )
     summary = extrinsic.summary()
+    saved: dict[str, Any] = dict(summary)
+    if isinstance(extrinsic, ManualExtrinsic):
+        saved["gravity"] = asdict(extrinsic.gravity)
+    (output_dir / "last_extrinsic.json").write_text(json.dumps(saved, indent=2))
     print(
         "camera in world: position "
         f"{np.round(summary['camera_position_world_metres'], 3).tolist()} m, heading "

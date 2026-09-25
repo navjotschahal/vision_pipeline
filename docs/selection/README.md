@@ -23,7 +23,24 @@ python -m vision_pipeline.apps.select_object --ndjson /tmp/selected.ndjson   # d
 python -m vision_pipeline.apps.select_object --replay recordings/d435i_table_static
 python -m vision_pipeline.apps.select_object --no-display --click 218 432 --duration 15
 
-# CPF bimanual box grasp handoff (tape + IMU extrinsic; see configs/calibration/camera_world_tape.yaml).
+# Camera-to-robot calibration (hand-guided ChArUco hand-eye through CPF's shared memory;
+# docs/calibration/openarm-cpf-hand-eye.md). Driver: hold_pose_demo --mode damp --shm /openarm_cpf.
+python -m vision_pipeline.apps.openarm_hand_eye board                       # printable board
+python -m vision_pipeline.apps.openarm_hand_eye identify                    # dictionary/ids of a printed marker grid
+python -m vision_pipeline.apps.openarm_hand_eye capture --arm right --square-mm 30.0
+python -m vision_pipeline.apps.openarm_hand_eye capture --arm right --pattern aruco-grid --markers 3 2 \
+  --dictionary DICT_4X4_50 --marker-mm <measured> --gap-mm <measured>       # plain 3x2 marker grid
+python -m vision_pipeline.apps.openarm_hand_eye check --arm right           # overlay FK arm on the image
+#   -> calibrations/openarm_v1/current.json (+ per-arm and per-run files, replayable sessions)
+# No marker on the hand: plate lying flat against the base plate's front edge (x 0.095), pattern centred.
+python -m vision_pipeline.apps.openarm_model_calibration plate --pattern aruco-grid --markers 2 3 \
+  --dictionary DICT_APRILTAG_36h11 --ids 5 4 3 2 1 0 --marker-mm 60 --gap-mm 22 --margin-mm <ruler> --thickness-mm <ruler>
+python -m vision_pipeline.apps.openarm_model_calibration capture --static --auto 1 --no-solve   # then:
+python -m vision_pipeline.apps.openarm_model_calibration residuals --session calibrations/openarm_v1/registration_sessions/<dir>
+#   -> <dir>/view-00.residual.png: posed model (white) over depth, a driver-free visual check
+
+# CPF bimanual box grasp handoff. Uses calibrations/openarm_v1/current.json when present,
+# else the tape + IMU extrinsic (configs/calibration/camera_world_tape.yaml); --extrinsic tape forces it.
 python -m vision_pipeline.apps.cpf_box_handoff --measure   # crosshair to tape the heading aim point
 python -m vision_pipeline.apps.cpf_box_handoff             # click box, press s when READY
 #   -> recordings/cpf_handoffs/cpf_box_*.json and the grasp_planner.py --object-pos/--half-width args

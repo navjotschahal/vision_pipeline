@@ -75,3 +75,7 @@ files = ["src"]
 [[tool.mypy.overrides]]
 module = "yaml"
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["mujoco", "shm_layout", "PIL", "PIL.*", "scipy", "scipy.*"]
+ignore_missing_imports = true
